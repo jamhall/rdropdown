@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './styles.css';
-import DropDownMenu from './DropDownMenu';
+import DropdownMenu from './DropDownMenu';
 
 class App extends Component {
     constructor(props) {
@@ -47,7 +47,8 @@ class App extends Component {
             {
                 icon: "/smile.png",
                 label: "Enchancement",
-                value:  "enchancement"
+                value:  "enchancement",
+                defaultSelected: true
             },
             {
                 icon: "/smile.png",
@@ -100,13 +101,22 @@ class App extends Component {
     renderDropdown() {
         if(this.state.dropdownVisible) {
             return (
-                <DropDownMenu
+                <DropdownMenu
                     options={ this.options }
                     onClose={ this.onClose }
                     onOptionSelected={ this.onOptionSelected }
                     headerTitle={ "Filter by labels" }
                     renderOption={
                         (option) => {
+                            if(option.defaultSelected) {
+                                return(
+                                    <a className="dropdown-menu-list-item dropdown-menu-list-item-selected">
+                                    <span className="dropdown-menu-list-item-selected-check" />
+                                    <img className="dropdown-menu-list-item-icon" src={ option.icon } />
+                                        { option.value }
+                                    </a>
+                                );
+                            }
                             return(
                                 <a className="dropdown-menu-list-item">
                                     <img className="dropdown-menu-list-item-icon" src={ option.icon } />
