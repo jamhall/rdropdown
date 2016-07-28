@@ -132,7 +132,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={this.onButtonClick }>Show dropdown</button>
+        <button onClick={this.onButtonClick }>Labels</button>
         { this.renderDropdown() }
       </div>
     );
