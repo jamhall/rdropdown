@@ -1,64 +1,54 @@
-import React, { Component } from 'react';
-
+import React, {Component, PropTypes} from 'react';
 class DropDownMenu extends Component {
+    static propTypes = {
+        renderOption: PropTypes.func.isRequired,
+        onOptionSelected: PropTypes.func.isRequired,
+        headerTitle: PropTypes.string.isRequired,
+        onClose: PropTypes.func.isRequired
+    }
+
+    constructor(props) {
+        super(props);
+    }
+
+    onOptionSelected(option) {
+        this.props.onOptionSelected(option);
+    }
+
+
+    renderOptions() {
+        const options = this.props.options;
+        const renderedOptions = [];
+        for (let option in options) {
+            renderedOptions.push(
+                <div key={option} onClick={this.onOptionSelected.bind(this, options[option]) } >
+                    { this.props.renderOption(options[option]) }
+                </div>
+            );
+        }
+        return renderedOptions;
+    }
+
+
   render() {
-    return (
-      <div>
-        <div className="dropdown-menu">
-            <div className="dropdown-menu-header">
-                <button className="dropdown-menu-close">×</button>
-                <span className="dropdown-menu-title">Filter by labels</span>
-            </div>
-            <div className="dropdown-menu-filters">
-                <div className="dropdown-menu-filter">
-                    <input autoFocus={true} type="text" placeholder="Filter labels" />
-                </div>
-                <div className="dropdown-menu-list">
-                    <a className="dropdown-menu-list-item">
-                        <img className="dropdown-menu-list-item-icon" src="https://cdn2.iconfinder.com/data/icons/new-year-resolutions/64/resolutions-09-128.png" />
-                        analysis
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        benchmark
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        breaking
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        bug
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        build
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        critical
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        deprecation
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        docs
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        enhancement
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        feature
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        regression
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        settings
-                    </a>
-                    <a className="dropdown-menu-list-item">
-                        stats
-                    </a>
-                </div>
-            </div>
+      return (
+        <div>
+          <div className="dropdown-menu">
+              <div className="dropdown-menu-header">
+                  <button className="dropdown-menu-close" onClick={this.props.onClose }>×</button>
+                  <span className="dropdown-menu-title">{ this.props.headerTitle }</span>
+              </div>
+              <div className="dropdown-menu-filters">
+                  <div className="dropdown-menu-filter">
+                      <input autoFocus={true} type="text" placeholder="Filter labels" />
+                  </div>
+                  <div className="dropdown-menu-list">
+                      { this.renderOptions()}
+                  </div>
+              </div>
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 
