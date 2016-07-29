@@ -1,4 +1,4 @@
-
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
 var path = require('path');
 
@@ -21,7 +21,7 @@ var options = {
     },
     plugins: [
       new CopyWebpackPlugin([
-           { from: 'rdropdown.css', to: 'dist/rdropdown.css' }
+           { from: path.resolve(__dirname, 'src/rdropdown.css'), to: 'rdropdown.css' }
        ])
     ],
     externals: [{

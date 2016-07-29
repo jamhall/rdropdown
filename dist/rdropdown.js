@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react"], factory);
 	else if(typeof exports === 'object')
-		exports["DropdownMenu"] = factory(require("react"));
+		exports["RDropdown"] = factory(require("react"));
 	else
-		root["DropdownMenu"] = factory(root["React"]);
+		root["RDropdown"] = factory(root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -74,13 +74,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var DropdownMenu = function (_Component) {
-	    _inherits(DropdownMenu, _Component);
+	var RDropdown = function (_Component) {
+	    _inherits(RDropdown, _Component);
 
-	    function DropdownMenu(props) {
-	        _classCallCheck(this, DropdownMenu);
+	    function RDropdown(props) {
+	        _classCallCheck(this, RDropdown);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DropdownMenu).call(this, props));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RDropdown).call(this, props));
 
 	        _this.state = {
 	            filterValue: null,
@@ -107,7 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _this;
 	    }
 
-	    _createClass(DropdownMenu, [{
+	    _createClass(RDropdown, [{
 	        key: 'handleError',
 	        value: function handleError(err) {
 	            console.error('An error occurred', err);
@@ -337,10 +337,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }]);
 
-	    return DropdownMenu;
+	    return RDropdown;
 	}(_react.Component);
 
-	DropdownMenu.propTypes = {
+	RDropdown.propTypes = {
 	    renderOption: _react.PropTypes.func.isRequired,
 	    onOptionSelected: _react.PropTypes.func.isRequired,
 	    headerTitle: _react.PropTypes.string.isRequired,
@@ -353,14 +353,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    enableEsc: _react.PropTypes.bool,
 	    errorText: _react.PropTypes.string
 	};
-	DropdownMenu.defaultProps = {
+	RDropdown.defaultProps = {
 	    filterEnabled: false,
 	    filterPlaceholder: 'Filter...',
 	    noOptionsFoundText: 'No results',
 	    enableEsc: true,
 	    errorText: 'An error occurred.'
 	};
-	exports.default = DropdownMenu;
+	exports.default = RDropdown;
 
 /***/ },
 /* 1 */
