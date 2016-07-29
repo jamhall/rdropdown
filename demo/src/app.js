@@ -41,17 +41,17 @@ class App extends Component {
     renderDropdown() {
         if (this.state.dropdownVisible) {
             return (
-                <RDropdown options={api.getLabels()}
+                <RDropdown options={api.getCountries()}
                   onClose={this.onClose}
                   onOptionSelected={this.onOptionSelected}
                   onFilter={this.onFilter}
-                  headerTitle={"Filter by label"}
+                  headerTitle={"Filter by country"}
                   filterEnabled={true}
-                  filterPlaceholder={"Filter labels"}
-                  noOptionsFoundText={ "No labels found. Sorry about that."}
+                  filterPlaceholder={"Filter countries"}
+                  noOptionsFoundText={ "No country found. Sorry about that."}
                   onFilter={ (value, options) => {
                       const fuse = new Fuse(options, {
-                          keys: ["label"],
+                          keys: ["name"],
                           threshold: 0
                       });
                       return fuse.search(value);
@@ -61,13 +61,13 @@ class App extends Component {
                         return (
                               <div className="dropdown-menu-list-item-selected">
                                 <span className="dropdown-menu-list-item-selected-check"/>
-                                <img className="dropdown-menu-list-item-icon" src={option.icon}/> {option.label}
+                                <img className="dropdown-menu-list-item-icon" src={ "/resources/flags/" + option.code.toLowerCase() + ".png"}  /> {option.name}
                               </div>
                         );
                     }
                     return (
                         <div>
-                            <img className="dropdown-menu-list-item-icon" src={option.icon}/> {option.label}
+                            <img className="dropdown-menu-list-item-icon" src={ "/resources/flags/" + option.code.toLowerCase() + ".png"} /> {option.name}
                         </div>
                     );
                 }}/>
@@ -78,16 +78,16 @@ class App extends Component {
     renderSelectedOption() {
       const option = this.state.optionSelected;
       if(option) {
-        return (<h1>Option selected: { option.label }</h1>)
+        return (<h1>Country selected: { option.name }</h1>)
       }
-      return <h1>Option selected: No label has been selected</h1>
+      return <h1>Country selected: No country has been selected</h1>
     }
 
     render() {
         return (
             <div className="App">
                 { this.renderSelectedOption() }
-                <button onClick={this.onButtonClick}>Select a label</button>
+                <button onClick={this.onButtonClick}>Select a country</button>
                 {this.renderDropdown()}
             </div>
         );
