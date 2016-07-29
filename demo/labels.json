@@ -1,0 +1,53 @@
+[{
+    "icon": "/smile.png",
+    "label": "Analysis",
+    "value": "analyis"
+}, {
+    "icon": "/smile.png",
+    "label": "Benchmark",
+    "value": "benchmark"
+}, {
+    "icon": "/smile.png",
+    "label": "Breaking",
+    "value": "breaking"
+}, {
+    "icon": "/smile.png",
+    "label": "Bug",
+    "value": "bug"
+}, {
+    "icon": "/smile.png",
+    "label": "Build",
+    "value": "build"
+}, {
+    "icon": "/smile.png",
+    "label": "Critical",
+    "value": "critical"
+}, {
+    "icon": "/smile.png",
+    "label": "Deprecation",
+    "value": "deprecation"
+}, {
+    "icon": "/smile.png",
+    "label": "Docs",
+    "value": "docs"
+}, {
+    "icon": "/smile.png",
+    "label": "Enchancement",
+    "value": "enchancement"
+}, {
+    "icon": "/smile.png",
+    "label": "Feature",
+    "value": "feature"
+}, {
+    "icon": "/smile.png",
+    "label": "Regression",
+    "value": "regression"
+}, {
+    "icon": "/smile.png",
+    "label": "Settings",
+    "value": "settings"
+}, {
+    "icon": "/smile.png",
+    "label": "Stats",
+    "value": "stats"
+}]
