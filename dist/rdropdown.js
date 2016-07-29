@@ -345,7 +345,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onOptionSelected: _react.PropTypes.func.isRequired,
 	    headerTitle: _react.PropTypes.string.isRequired,
 	    filterEnabled: _react.PropTypes.bool,
-	    filterLabel: _react.PropTypes.string,
 	    filterPlaceholder: _react.PropTypes.string,
 	    noOptionsFoundText: _react.PropTypes.string,
 	    onFilter: _react.PropTypes.func,

@@ -1,4 +1,4 @@
-# React Dropdown menu
+# RDropdown
 
 A github flavoured dropdown menu for ReactJS
 
