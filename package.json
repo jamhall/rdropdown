@@ -1,8 +1,8 @@
 {
-  "name": "react-dropdown-menu",
+  "name": "rdropdown",
   "version": "0.0.0",
   "description": "A ReactJS component to render a Github-style dropdown",
-  "main": "dist/react-dropdown-menu.js",
+  "main": "dist/rdropdown.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo:run": "webpack-dev-server --hot --inline --config webpack.config.demo.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jamhall/react-dropdown-menu.git"
+    "url": "git+https://github.com/jamhall/rdropdown.git"
   },
   "keywords": [
     "dropdown",
@@ -23,9 +23,9 @@
   "author": "Jamie Hall <hello@jamiehall.eu> (https://github.com/jamhall)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jamhall/react-dropdown-menu/issues"
+    "url": "https://github.com/jamhall/rdropdown/issues"
   },
-  "homepage": "https://github.com/jamhall/react-dropdown-menu",
+  "homepage": "https://github.com/jamhall/rdropdown",
   "devDependencies": {
     "babel-cli": "^6.8.0",
     "babel-core": "^6.5.1",
