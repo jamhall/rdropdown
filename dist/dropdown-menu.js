@@ -95,20 +95,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.handleKeyDown = _this.handleKeyDown.bind(_this);
 	        _this.setFilterValue = _this.setFilterValue.bind(_this);
 
+	        _this.handleError = _this.handleError.bind(_this);
+	        _this.setOptions = _this.setOptions.bind(_this);
+
 	        if ('function' === typeof _this.props.options.then) {
-	            _this.props.options.then(function (options) {
-	                _this.setOptions(options);
-	            });
+	            _this.props.options.then(_this.setOptions).catch(_this.handleError);
 	        } else {
 	            _this.setOptions(_this.props.options);
 	        }
+
 	        return _this;
 	    }
 
 	    _createClass(DropdownMenu, [{
+	        key: 'handleError',
+	        value: function handleError(err) {
+	            console.error('An error occurred', err);
+	            this.setState({
+	                errorOccurred: true
+	            });
+	        }
+	    }, {
 	        key: 'handleClose',
 	        value: function handleClose() {
 	            this.props.onClose();
+	        }
+	    }, {
+	        key: 'handleError',
+	        value: function handleError(err) {
+	            this.setState({
+	                errorOccurred: true
+	            });
 	        }
 	    }, {
 	        key: 'handleItemSelected',
@@ -257,6 +274,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'renderList',
 	        value: function renderList() {
+	            if (this.state.errorOccurred) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: 'dropdown-menu-no-results' },
+	                    this.props.errorText
+	                );
+	            }
 	            if (this.state.isLoading) {
 	                return _react2.default.createElement(
 	                    'div',
@@ -306,6 +330,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.renderList()
 	            );
 	        }
+	    }, {
+	        key: 'options',
+	        get: function get() {
+	            return this.state.filteredOptions || this.state.options;
+	        }
 	    }]);
 
 	    return DropdownMenu;
@@ -321,13 +350,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    noOptionsFoundText: _react.PropTypes.string,
 	    onFilter: _react.PropTypes.func,
 	    onClose: _react.PropTypes.func.isRequired,
-	    enableEsc: _react.PropTypes.bool
+	    enableEsc: _react.PropTypes.bool,
+	    errorText: _react.PropTypes.string
 	};
 	DropdownMenu.defaultProps = {
 	    filterEnabled: false,
 	    filterPlaceholder: 'Filter...',
 	    noOptionsFoundText: 'No results',
-	    enableEsc: true
+	    enableEsc: true,
+	    errorText: 'An error occurred.'
 	};
 	exports.default = DropdownMenu;
 

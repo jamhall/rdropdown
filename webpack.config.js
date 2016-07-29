@@ -3,11 +3,11 @@ var webpack = require('webpack');
 var path = require('path');
 
 var options = {
-    entry: path.resolve(__dirname, 'src/dropdown-menu'),
+    entry: path.resolve(__dirname, 'src/rdropdown'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        library: 'DropdownMenu',
-        filename: 'dropdown-menu.js',
+        library: 'RDropdown',
+        filename: 'rdropdown.js',
         libraryTarget: 'umd'
     },
     module: {
@@ -19,6 +19,11 @@ var options = {
             }
         }]
     },
+    plugins: [
+      new CopyWebpackPlugin([
+           { from: 'rdropdown.css', to: 'dist/rdropdown.css' }
+       ])
+    ],
     externals: [{
         'react': {
             root: 'React',

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-class DropdownMenu extends Component {
+class RDropdown extends Component {
     static propTypes = {
         renderOption: PropTypes.func.isRequired,
         onOptionSelected: PropTypes.func.isRequired,
@@ -11,14 +11,18 @@ class DropdownMenu extends Component {
         noOptionsFoundText: PropTypes.string,
         onFilter: PropTypes.func,
         onClose: PropTypes.func.isRequired,
-        enableEsc: PropTypes.bool
+        enableEsc: PropTypes.bool,
+        errorText: PropTypes.string
     }
+
     static defaultProps = {
         filterEnabled: false,
         filterPlaceholder: 'Filter...',
         noOptionsFoundText: 'No results',
-        enableEsc: true
+        enableEsc: true,
+        errorText: 'An error occurred.'
     }
+
 
     constructor(props) {
         super(props);
@@ -35,17 +39,32 @@ class DropdownMenu extends Component {
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.setFilterValue = this.setFilterValue.bind(this);
 
+        this.handleError = this.handleError.bind(this);
+        this.setOptions = this.setOptions.bind(this);
+
         if ('function' === typeof this.props.options.then) {
-            this.props.options.then((options) => {
-                this.setOptions(options);
-            });
+            this.props.options.then(this.setOptions).catch(this.handleError);
         } else {
             this.setOptions(this.props.options);
         }
+
+    }
+
+    handleError(err) {
+        console.error('An error occurred', err);
+        this.setState({
+            errorOccurred: true
+        });
     }
 
     handleClose() {
         this.props.onClose();
+    }
+
+    handleError(err) {
+      this.setState({
+        errorOccurred: true
+      });
     }
 
     handleItemSelected(option) {
@@ -107,6 +126,9 @@ class DropdownMenu extends Component {
         }
     }
 
+    get options() {
+      return this.state.filteredOptions || this.state.options;
+    }
     handleKeyDown(e) {
         const options = this.state.filteredOptions || this.state.options;
         if (options.length > 0 && this.state.isLoading === false) {
@@ -179,6 +201,11 @@ class DropdownMenu extends Component {
     }
 
     renderList() {
+        if(this.state.errorOccurred) {
+          return (
+              <div className="dropdown-menu-no-results">{ this.props.errorText }</div>
+          )
+        }
         if (this.state.isLoading) {
             return (
                 <div className="dropdown-menu-loading">
@@ -217,4 +244,4 @@ class DropdownMenu extends Component {
     }
 }
 
-export default DropdownMenu;
+export default RDropdown;

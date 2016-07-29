@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import '../src/dropdown-menu.css';
-import DropdownMenu from '../src/dropdown-menu';
+import './styles.css';
+import '../../src/rdropdown.css';
+import RDropdown from '../../src/rdropdown';
 import Fuse from 'fuse.js';
 import api from './api';
 
@@ -40,7 +41,7 @@ class App extends Component {
     renderDropdown() {
         if (this.state.dropdownVisible) {
             return (
-                <DropdownMenu options={api.getLabels()}
+                <RDropdown options={api.getLabels()}
                   onClose={this.onClose}
                   onOptionSelected={this.onOptionSelected}
                   onFilter={this.onFilter}

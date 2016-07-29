@@ -3,21 +3,20 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    entry: path.resolve(__dirname, 'demo/index'),
+    entry: path.resolve(__dirname, 'demo/src/index'),
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        library: 'DropdownMenu',
-        filename: 'app.js',
-        libraryTarget: 'umd'
+        path: path.resolve(__dirname, 'demo/build'),
+        filename: 'app.js'
     },
     module: {
         loaders: [{
             test: /\.js?$/,
             loader: 'babel-loader',
             query: {
-                presets: ['babel-preset-es2015', 'react', 'stage-0']
+                presets: ['es2015', 'react', 'stage-0']
             }
-        }]
+        },
+        { test: /\.css$/, loader: "style-loader!css-loader?importLoaders=1" }]
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -27,26 +26,11 @@ module.exports = {
         }),
         new webpack.NoErrorsPlugin()
     ],
-    externals: [{
-        'react': {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react'
-        }
-    }, {
-        'react-dom': {
-            root: 'ReactDOM',
-            commonjs2: 'react-dom',
-            commonjs: 'react-dom',
-            amd: 'react-dom'
-        }
-    }],
     resolve: {
-        extensions: ['', '.js', '.es6.js', '.jsx']
+        extensions: ['', '.js', '.es6.js', '.jsx', '.css']
     },
     devServer: {
-      contentBase: 'build',
+      contentBase: 'demo',
       port: 3001
     }
 };
