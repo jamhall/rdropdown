@@ -6,7 +6,6 @@ class RDropdown extends Component {
         onOptionSelected: PropTypes.func.isRequired,
         headerTitle: PropTypes.string.isRequired,
         filterEnabled: PropTypes.bool,
-        filterLabel: PropTypes.string,
         filterPlaceholder: PropTypes.string,
         noOptionsFoundText: PropTypes.string,
         onFilter: PropTypes.func,
