@@ -2,16 +2,19 @@
 import React, {Component} from 'react';
 
 import RDropdown from '../../../src/rdropdown';
-import Fuse from 'fuse.js';
-import Api from '../api';
 import BaseSingleDropdown from './base-single-dropdown';
 
+/**
+ * Extend the base single dropdown as the examples share common functionality...
+ */
 class SingleDropdown extends BaseSingleDropdown {
+
     constructor(props) {
         super(props);
     }
 
     renderDropdown() {
+        // Get an array of countries
         const countries = this.api.getCountries();
         if (this.state.dropdownVisible) {
             return (
@@ -19,21 +22,14 @@ class SingleDropdown extends BaseSingleDropdown {
                   options={ countries }
                   onClose={this.onClose}
                   onOptionSelected={this.onOptionSelected}
+                  optionSelected={this.state.optionSelected}
                   headerTitle={"Filter by country"}
                   renderOption={(option) => {
-                    if (option === this.state.optionSelected) {
-                        return (
-                              <div className="dropdown-menu-list-item-selected">
-                                <span className="dropdown-menu-list-item-selected-check"/>
-                                <img className="dropdown-menu-list-item-icon" src={ "/resources/flags/" + option.code.toLowerCase() + ".png"}  /> {option.name}
-                              </div>
-                        );
-                    }
-                    return (
-                        <div>
-                            <img className="dropdown-menu-list-item-icon" src={ "/resources/flags/" + option.code.toLowerCase() + ".png"} /> {option.name}
-                        </div>
-                    );
+                      return (
+                          <div>
+                              <img className="dropdown-menu-list-item-icon" src={  this.getFlagImageSource (option) } /> {option.name}
+                          </div>
+                      );
                 }}/>
             );
         }

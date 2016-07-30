@@ -20,6 +20,7 @@ class App extends Component {
 
                 <h2>Simple</h2>
                 <SingleDropdown />
+                <p><a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-dropdown.js">Source</a></p>
 
                 <h2>Simple with a filter</h2>
                 <SingleFilterDropdown />

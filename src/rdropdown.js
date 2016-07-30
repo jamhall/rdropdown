@@ -23,7 +23,8 @@ class RDropdown extends Component {
         enableEsc: true,
         errorText: 'An error occurred.',
         applyText: 'Apply',
-        onApply: null
+        onApply: null,
+        optionSelected: null
     }
 
     constructor(props) {
@@ -34,8 +35,7 @@ class RDropdown extends Component {
             options: props.options,
             isLoading: true,
             focusedOption: null,
-            focusedIndex: 0,
-            selectedOption: []
+            focusedIndex: 0
         }
 
         this.handleFilter = this.handleFilter.bind(this);
@@ -210,6 +210,35 @@ class RDropdown extends Component {
         }
     }
 
+    isOptionSelected(option) {
+        const {optionSelected} = this.props;
+        if(optionSelected) {
+            return this.props.optionSelected === option;
+        }
+        return false;
+    }
+
+    isOptionFocused(option) {
+        const {focusedOption} = this.state;
+        if(focusedOption) {
+            return focusedOption === option;
+        }
+        return false;
+    }
+
+    buildClassNamesForOption(option) {
+        const selectedClasses =  "dropdown-menu-list-item dropdown-menu-list-item-selected";
+        const normalClass = "dropdown-menu-list-item";
+        const focusedClasses = "dropdown-menu-list-item dropdown-menu-list-item-focused";
+        let classNames = normalClass;
+        if(this.isOptionSelected(option)) {
+            classNames = selectedClasses;
+        } else if(this.isOptionFocused(option) && !this.isOptionSelected(option)) {
+            classNames = focusedClasses;
+        }
+        return classNames;
+    }
+
     renderOptions() {
         const options = this.getOptions();
         if (options.length === 0) {
@@ -218,19 +247,9 @@ class RDropdown extends Component {
             )
         }
         const renderedOptions = options.map((option, index) => {
-            if (this.state.focusedOption === option) {
-                return (
-                    <a key={index}
-                       className="dropdown-menu-list-item dropdown-menu-list-item-focused"
-                       ref={`option_${index}`}
-                       onClick={this.handleOptionSelected.bind(this, option)}>
-                        {this.props.renderOption(option)}
-                    </a>
-                );
-            }
             return (
                 <a key={index}
-                   className="dropdown-menu-list-item"
+                   className={ this.buildClassNamesForOption(option)}
                    ref={`option_${index}`}
                    onClick={this.handleOptionSelected.bind(this, option)}>
                     {this.props.renderOption(option)}

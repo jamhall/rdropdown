@@ -6,7 +6,7 @@ import Api from '../api';
 
 class BaseSingleDropdown extends Component {
     constructor(props) {
-        
+
         super(props);
         this.api = new Api();
         this.onButtonClick = this.onButtonClick.bind(this);
@@ -45,6 +45,11 @@ class BaseSingleDropdown extends Component {
         return (<div className="example-result">Country selected: <b>{ option.name }</b></div>)
       }
       return <div className="example-result">Country selected: <b>No country has been selected</b></div>
+    }
+
+
+    getFlagImageSource(option) {
+        return "/resources/flags/" + option.code.toLowerCase() + ".png";
     }
 
     render() {
