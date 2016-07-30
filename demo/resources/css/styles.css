@@ -9,7 +9,7 @@ body {
 }
 .content {
     margin: 0 auto;
-    padding: 0px 0px 300px 0px;
+    padding: 20px 0px 300px 0px;
 }
 .content h2 {
     color: black;
@@ -18,6 +18,14 @@ body {
     margin-bottom: .66em;
     margin-top: 0;
     font-size: 1.2em;
+}
+
+.content .alert-info {
+    margin-bottom: 10px;
+    background: #3498db;
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
 }
 .example {
     border-bottom: 1px solid #ccc;
@@ -63,8 +71,7 @@ body {
     height: 50px;
     padding: 10px;
 }
-.navigation .link {
-    color: #4183c4;
+.navigation .details {
     text-decoration: none;
     float: left;
     padding-top: 5px;

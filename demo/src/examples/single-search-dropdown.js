@@ -41,7 +41,7 @@ class SingleSearchDropdown extends BaseSingleDropdown {
                   renderOption={(option) => {
                       return (
                           <div>
-                              <img className="dropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
+                             {option.name}
                           </div>
                       );
                   }}/>

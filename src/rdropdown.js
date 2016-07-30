@@ -65,14 +65,12 @@ class RDropdown extends Component {
         }
     }
 
-    /**
-     * When the parent container has a tabIndex of 0, autofocusing an input element
-     * does not work. We need to manually check if it has been rendered and then invoke the focus method
-     */
     componentDidUpdate() {
-        const searchInput = this.refs.searchInput;
+        const {searchInput, dropdownMenu} = this.refs;
         if(searchInput) {
             searchInput.focus();
+        } else {
+            dropdownMenu.focus();
         }
     }
 
@@ -217,7 +215,7 @@ class RDropdown extends Component {
         if (searchable) {
             return (
                 <div className="dropdown-menu-filter">
-                    <input autoFocus={true} tabIndex={0} ref="searchInput" type="text" onChange={this.handleSearch} value={this.state.searchValue || ''} placeholder={this.props.searchPlaceholder}/>
+                    <input autoFocus={true} ref="searchInput" type="text" onChange={this.handleSearch} value={this.state.searchValue || ''} placeholder={this.props.searchPlaceholder}/>
                 </div>
             );
         }
@@ -327,7 +325,7 @@ class RDropdown extends Component {
     render() {
         const { title, onClose} = this.props;
         return (
-            <div tabIndex="0" className="dropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
+            <div tabIndex={0} className="dropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
                 <div className="dropdown-menu-header">
                     <button className="dropdown-menu-close" onClick={onClose}>×</button>
                     <span className="dropdown-menu-title">{title}</span>

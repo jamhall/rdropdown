@@ -7,7 +7,7 @@ import BaseSingleDropdown from './base-single-dropdown';
 /**
  * Extend the base single dropdown as the examples share common functionality...
  */
-class SingleDropdown extends BaseSingleDropdown {
+class SingleDropdownCustomOptionRenderer extends BaseSingleDropdown {
 
     constructor(props) {
         super(props);
@@ -23,10 +23,11 @@ class SingleDropdown extends BaseSingleDropdown {
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
                   selectedOption={this.state.selectedOption}
+                  title = { "Countries" }
                   renderOption={(option) => {
                       return (
                           <div>
-                             {option.name}
+                              <img className="dropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
                           </div>
                       );
                 }}/>
@@ -35,4 +36,4 @@ class SingleDropdown extends BaseSingleDropdown {
     }
 }
 
-export default SingleDropdown;
+export default SingleDropdownCustomOptionRenderer;
