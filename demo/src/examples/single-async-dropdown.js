@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import RDropdown from '../../../src/rdropdown';
-import Fuse from 'fuse.js';
 import BaseSingleDropdown from './base-single-dropdown';
 
 /**
@@ -11,39 +10,20 @@ class SingleAsyncDropdown extends BaseSingleDropdown {
         super(props);
     }
 
-    onFilter(value, options) {
-        const fuse = new Fuse(options, {
-            keys: ["name"],
-            threshold: 0
-        });
-        return fuse.search(value);
-    }
-
     renderDropdown() {
         // Get an array of countries via a promise...
-        const countries = this.api.getCountriesAsync();
+        const countries = this.api.getCountriesPromise();
         if (this.state.dropdownVisible) {
             return (
                 <RDropdown options={ countries }
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
                   selectedOption={this.state.selectedOption}
-                  onFilter={this.onFilter}
-                  headerTitle={"Filter by country"}
-                  filterEnabled={true}
-                  filterPlaceholder={"Filter countries"}
-                  noOptionsFoundText={ "No country found. Sorry about that."}
-                  onFilteredOptions={ (value, options) => {
-                      const fuse = new Fuse(options, {
-                          keys: ["name"],
-                          threshold: 0
-                      });
-                      return fuse.search(value);
-                  }}
+                  title={"Countries"}
                   renderOption={(option) => {
                       return (
                           <div>
-                              <img className="dropdown-menu-list-item-icon" src={  this.getFlagImageSource (option) } /> {option.name}
+                              <img className="dropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
                           </div>
                       );
                   }}/>

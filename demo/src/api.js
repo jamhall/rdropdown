@@ -31,13 +31,14 @@ class Api {
           { name: "United Kingdom", code: "GB" },
       ];
     }
-    getCountriesAsync() {
+    getCountriesPromise() {
         return new Promise((resolve, reject) => {
             window.setTimeout(() => {
                 resolve(this.countries)
             }, 500);
         });
     }
+
     getCountries() {
         return this.countries;
     }

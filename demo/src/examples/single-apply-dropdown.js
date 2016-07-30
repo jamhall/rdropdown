@@ -12,13 +12,13 @@ class SingleApplyDropdown extends BaseSingleDropdown {
      * Perform a fuzzy search on the options. Return all matched options.
      * NB: The matched options must have exactly the same structure as the original options
      */
-    onFilter(value, options) {
-        const fuse = new Fuse(options, {
-            keys: ["name"],
-            threshold: 0
-        });
-        return fuse.search(value);
-    }
+     onSearch(input, options) {
+         const fuse = new Fuse(options, {
+             keys: ["name"],
+             threshold: 0
+         });
+         return fuse.search(input);
+     }
 
     renderDropdown() {
         const countries = this.api.getCountries();
@@ -27,16 +27,16 @@ class SingleApplyDropdown extends BaseSingleDropdown {
                 <RDropdown options={ countries }
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
-                  onFilteredOptions={this.onFilter}
+                  onSearch={this.onSearch}
                   applyOptions = { true }
-                  headerTitle={"Filter by country"}
-                  filterEnabled={true}
-                  filterPlaceholder={"Filter countries"}
-                  noOptionsFoundText={ "No country found. Sorry about that."}
+                  title={"Countries"}
+                  searchable={true}
+                  searchPlaceholder={"Search countries"}
+                  noResultsText={ "No country found. Sorry about that."}
                   renderOption={(option) => {
                       return (
                           <div>
-                              <img className="dropdown-menu-list-item-icon" src={  this.getFlagImageSource (option) } /> {option.name}
+                              <img className="dropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
                           </div>
                       );
                   }}/>

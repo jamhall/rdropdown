@@ -39,9 +39,9 @@ class BaseSingleDropdown extends Component {
     renderSelectedOption() {
       const option = this.state.selectedOption;
       if(option) {
-        return (<div className="example-result">Country selected: <b>{ option.name }</b></div>)
+        return (<div className="example-result"><b>Country selected: </b>{ option.name }</div>)
       }
-      return <div className="example-result">Country selected: <b>No country has been selected</b></div>
+      return <div className="example-result"><b>Country selected: </b>No country has been selected</div>
     }
 
 

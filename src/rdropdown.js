@@ -4,13 +4,14 @@ class RDropdown extends Component {
     static propTypes = {
         renderOption: PropTypes.func.isRequired,
         onSelectedOptions: PropTypes.func.isRequired,
+        selectedOption: PropTypes.any,
         onClose: PropTypes.func.isRequired,
-        onFilteredOptions: PropTypes.func,
+        onSearch: PropTypes.func,
         multiple: PropTypes.bool,
-        headerTitle: PropTypes.string,
-        filterEnabled: PropTypes.bool,
-        filterPlaceholder: PropTypes.string,
-        noOptionsFoundText: PropTypes.string,
+        title: PropTypes.string,
+        searchable: PropTypes.bool,
+        searchPlaceholder: PropTypes.string,
+        noResultsText: PropTypes.string,
         enableEsc: PropTypes.bool,
         errorText: PropTypes.string,
         applyOptions: PropTypes.bool,
@@ -18,22 +19,24 @@ class RDropdown extends Component {
     }
 
     static defaultProps = {
-        filterEnabled: false,
-        filterPlaceholder: 'Filter...',
-        noOptionsFoundText: 'No results',
+        searchable: false,
+        searchPlaceholder: 'Search...',
+        noResultsText: 'No results',
         enableEsc: true,
         errorText: 'An error occurred.',
         applyText: 'Apply',
         applyOptions: false,
         selectedOption: null,
         multiple: false,
-        headerTitle: 'Filter'
+        title: 'Filter'
     }
 
     constructor(props) {
         super(props);
+        this.displayName = 'RDropdown';
+
         this.state = {
-            filterValue: null,
+            searchValue: null,
             filteredOptions: null,
             options: props.options,
             isLoading: true,
@@ -42,22 +45,23 @@ class RDropdown extends Component {
             preselectedOptions: []
         }
 
-        this.handleFilter = this.handleFilter.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
         this.handleOptionSelected = this.handleOptionSelected.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleApply = this.handleApply.bind(this);
         this.handleError = this.handleError.bind(this);
         this.handleError = this.handleError.bind(this);
 
-        this.setFilterValue = this.setFilterValue.bind(this);
+        this.setSearchValue = this.setSearchValue.bind(this);
         this.setOptions = this.setOptions.bind(this);
     }
 
     componentDidMount() {
-        if ('function' === typeof this.props.options.then) {
-            this.props.options.then(this.setOptions).catch(this.handleError);
+        const options = this.props.options;
+        if ('function' === typeof options.then) {
+            options.then(this.setOptions).catch(this.handleError);
         } else {
-            this.setOptions(this.props.options);
+            this.setOptions(options);
         }
     }
 
@@ -66,9 +70,9 @@ class RDropdown extends Component {
      * does not work. We need to manually check if it has been rendered and then invoke the focus method
      */
     componentDidUpdate() {
-        const filterInput = this.refs.filterInput;
-        if(filterInput) {
-            filterInput.focus();
+        const searchInput = this.refs.searchInput;
+        if(searchInput) {
+            searchInput.focus();
         }
     }
 
@@ -101,8 +105,8 @@ class RDropdown extends Component {
         return 0;
     }
 
-    setFilterValue(value) {
-        this.setState({filterValue: value});
+    setSearchValue(value) {
+        this.setState({searchValue: value});
     }
 
     setFocusedOption(index, options) {
@@ -150,12 +154,12 @@ class RDropdown extends Component {
       });
     }
 
-    handleFilter(event) {
+    handleSearch(event) {
         const value = event.target.value;
-        this.setFilterValue(value);
+        this.setSearchValue(value);
         if (value) {
             const options = this.state.options;
-            const filteredOptions = this.props.onFilteredOptions(value, options);
+            const filteredOptions = this.props.onSearch(value, options);
             this.setFilteredOptions(filteredOptions);
             this.setFocusedOption(0, filteredOptions);
             return;
@@ -208,12 +212,12 @@ class RDropdown extends Component {
         }
     }
 
-    renderFilter() {
-        const {filterEnabled} = this.props;
-        if (filterEnabled) {
+    renderSearch() {
+        const {searchable} = this.props;
+        if (searchable) {
             return (
                 <div className="dropdown-menu-filter">
-                    <input autoFocus={true} tabIndex={0} ref="filterInput" type="text" onChange={this.handleFilter} value={this.state.filterValue || ''} placeholder={this.props.filterPlaceholder}/>
+                    <input autoFocus={true} tabIndex={0} ref="searchInput" type="text" onChange={this.handleSearch} value={this.state.searchValue || ''} placeholder={this.props.searchPlaceholder}/>
                 </div>
             );
         }
@@ -250,9 +254,9 @@ class RDropdown extends Component {
     }
 
     buildClassNamesForOption(option) {
-        const selectedClasses =  "dropdown-menu-list-item dropdown-menu-list-item-selected";
+        const selectedClasses =  "dropdown-menu-list-item dropdown-menu-list-option-selected";
         const normalClass = "dropdown-menu-list-item";
-        const focusedClasses = "dropdown-menu-list-item dropdown-menu-list-item-focused";
+        const focusedClasses = "dropdown-menu-list-item dropdown-menu-list-option-focused";
         let classNames = normalClass;
         if(this.isSelectedOption(option)) {
             classNames = selectedClasses;
@@ -266,7 +270,7 @@ class RDropdown extends Component {
         const options = this.getOptions();
         if (options.length === 0) {
             return (
-                <div className="dropdown-menu-no-results">{this.props.noOptionsFoundText}</div>
+                <div className="dropdown-menu-no-results">{this.props.noResultsText}</div>
             )
         }
         const renderedOptions = options.map((option, index) => {
@@ -314,19 +318,19 @@ class RDropdown extends Component {
         }
         return (
             <div className="dropdown-menu-filters">
-                {this.renderFilter()}
+                {this.renderSearch()}
                 {this.renderOptions()}
             </div>
         )
     }
 
     render() {
-        const { headerTitle, onClose} = this.props;
+        const { title, onClose} = this.props;
         return (
             <div tabIndex="0" className="dropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
                 <div className="dropdown-menu-header">
                     <button className="dropdown-menu-close" onClick={onClose}>×</button>
-                    <span className="dropdown-menu-title">{headerTitle}</span>
+                    <span className="dropdown-menu-title">{title}</span>
                 </div>
                 {this.renderList()}
                 {this.renderApply()}

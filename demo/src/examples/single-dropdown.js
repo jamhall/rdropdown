@@ -23,11 +23,10 @@ class SingleDropdown extends BaseSingleDropdown {
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
                   selectedOption={this.state.selectedOption}
-                  headerTitle={"Filter by country"}
                   renderOption={(option) => {
                       return (
                           <div>
-                              <img className="dropdown-menu-list-item-icon" src={  this.getFlagImageSource (option) } /> {option.name}
+                              <img className="dropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
                           </div>
                       );
                 }}/>
