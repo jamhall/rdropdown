@@ -39,21 +39,21 @@ class BaseSingleDropdown extends Component {
     renderSelectedOption() {
       const option = this.state.selectedOption;
       if(option) {
-        return (<div className="example-result"><b>Country selected: </b>{ option.name }</div>)
+        return (<div className="result"><b>Country: </b>{ option.name }</div>)
       }
-      return <div className="example-result"><b>Country selected: </b>No country has been selected</div>
+      return <div className="result"><b>Country: </b>No country has been selected</div>
     }
 
 
     getFlagImageSource(option) {
-        return "/resources/flags/" + option.code.toLowerCase() + ".png";
+        return "/flags/" + option.code.toLowerCase() + ".png";
     }
 
     render() {
         return (
             <div className="example-container">
                 { this.renderSelectedOption() }
-                <button className="pure-button" onClick={this.onButtonClick}>Select a country</button>
+                <button className="pure-button button-success" onClick={this.onButtonClick}>Select a country</button>
                 {this.renderDropdown()}
             </div>
         );

@@ -2,35 +2,91 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #EEE;
     color: #444;
-    line-height: 1.4em;
-    padding-top: 40px;
 }
 * {
     box-sizing: border-box;
 }
-
-h2 {
-    border-bottom: 1px solid #ccc;
-    font-size: 1.2em;
-    margin: 1em 0 1em 0;
-    font-weight: bold;
-}
-
 .content {
-    background: white;
-    border: 1px solid #ccc;
-    border-width: 1px;
     margin: 0 auto;
-    padding: 40px 50px 40px;
-    width: 738px;
+    padding: 0px 0px 300px 0px;
 }
-.example-container {
-    padding-top: 0px 0px 10px 0px;
+.content h2 {
+    color: black;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: .66em;
+    margin-top: 0;
+    font-size: 1.2em;
+}
+.example {
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0px 15px 0px;
+}
+.example .button-success {
+    background: #27ae60;
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.example-result {
-    float: clear;
+.example:last-child {
+    border: none;
+}
+.example .info {
+    font-size: .95em;
+    margin: 15px 0;
+    color: #666;
+}
+.example .result {
+    color: #666;
     padding-bottom: 10px;
+    font-size: 1em;
+}
+.footer {
+    background-color: #fafafa;
+    color: #999;
+    padding: 30px 0;
+    text-align: center;
+}
+.header {
+    background: #27ae60;
+    color: white;
+    height: 150px;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+}
+.navigation {
+    background: #fafafa;
+    text-align: center;
+    height: 50px;
+    padding: 10px;
+}
+.navigation .link {
+    color: #4183c4;
+    text-decoration: none;
+    float: left;
+    padding-top: 5px;
+    margin-right: 15px;
+}
+.navigation .button {
+    float: right;
+}
+.header p {
+    color: #ecf0f1;
+    font-size: 14pt;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    padding: 0 20px;
+}
+.container a {
+    color: #4183c4;
+    text-decoration: none;
+}
+.container a:visited {
+    color: #4183c4;
 }

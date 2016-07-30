@@ -5,8 +5,11 @@
   "main": "dist/rdropdown.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "demo:run": "webpack-dev-server --hot --inline --config webpack.config.demo.js",
-    "build": "webpack --config webpack.config.js --bail"
+    "start": " NODE_ENV=development webpack-dev-server --hot --inline --config webpack.config.dev.js",
+    "build:demo": "npm run clean:demo && NODE_ENV=production webpack --config webpack.config.demo.js -p --bail",
+    "clean:demo": "rimraf build",
+    "build": "webpack --config webpack.config.js --bail",
+    "lint": "standard"
   },
   "repository": {
     "type": "git",

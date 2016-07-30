@@ -1,10 +1,9 @@
 var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    devtool: 'source-map',
+    devtool: 'eval',
     entry: [path.resolve(__dirname, 'demo/src/index')],
     output: {
         path: path.resolve(__dirname, 'build'),
@@ -18,7 +17,9 @@ module.exports = {
                 presets: ['es2015', 'react', 'stage-0']
             }
         },
-        { test: /\.css$/, loader: "style-loader!css-loader?importLoaders=1" }]
+        { test: /\.(png|jpg)$/, loader: 'url-loader?limit=90000' },
+        { test: /\.css$/, loader: "style-loader!css-loader?importLoaders=1" }
+    ]
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -26,16 +27,15 @@ module.exports = {
             inject: true,
             template: './index.html'
         }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
-        new CopyWebpackPlugin([
-           { from: 'demo/resources' }
-       ])
+        new webpack.NoErrorsPlugin(),
+        new webpack.optimize.UglifyJsPlugin()
+
     ],
     resolve: {
         extensions: ['', '.js', '.es6.js', '.jsx', '.css']
+    },
+    devServer: {
+      contentBase: 'demo/resources',
+      port: 3001
     }
 };
