@@ -11,7 +11,9 @@ class RDropdown extends Component {
         onFilter: PropTypes.func,
         onClose: PropTypes.func.isRequired,
         enableEsc: PropTypes.bool,
-        errorText: PropTypes.string
+        errorText: PropTypes.string,
+        onApply: PropTypes.func,
+        applyText: PropTypes.string
     }
 
     static defaultProps = {
@@ -19,9 +21,10 @@ class RDropdown extends Component {
         filterPlaceholder: 'Filter...',
         noOptionsFoundText: 'No results',
         enableEsc: true,
-        errorText: 'An error occurred.'
+        errorText: 'An error occurred.',
+        applyText: 'Apply',
+        onApply: null
     }
-
 
     constructor(props) {
         super(props);
@@ -31,22 +34,38 @@ class RDropdown extends Component {
             options: props.options,
             isLoading: true,
             focusedOption: null,
-            focusedIndex: 0
+            focusedIndex: 0,
+            selectedOption: []
         }
-        this.handleFilter = this.handleFilter.bind(this);
-        this.handleItemSelected = this.handleItemSelected.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.setFilterValue = this.setFilterValue.bind(this);
 
+        this.handleFilter = this.handleFilter.bind(this);
+        this.handleOptionSelected = this.handleOptionSelected.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleApply = this.handleApply.bind(this);
+        this.handleError = this.handleError.bind(this);
+        this.setFilterValue = this.setFilterValue.bind(this);
         this.handleError = this.handleError.bind(this);
         this.setOptions = this.setOptions.bind(this);
+        this.focusContainer = this.focusContainer.bind(this);
+    }
 
+    componentDidMount() {
         if ('function' === typeof this.props.options.then) {
             this.props.options.then(this.setOptions).catch(this.handleError);
         } else {
             this.setOptions(this.props.options);
         }
+    }
 
+    /**
+     * When the parent container has a tabIndex of 0, autofocusing an input element
+     * does not work. We need to manually check if it has been rendered and then invoke the focus method
+     */
+    componentDidUpdate() {
+        const filterInput = this.refs.filterInput;
+        if(filterInput) {
+            filterInput.focus();
+        }
     }
 
     handleError(err) {
@@ -66,7 +85,7 @@ class RDropdown extends Component {
       });
     }
 
-    handleItemSelected(option) {
+    handleOptionSelected(option) {
         this.props.onOptionSelected(option);
     }
 
@@ -75,8 +94,14 @@ class RDropdown extends Component {
     }
 
     setOptions(options) {
-        this.setState({options: options, isLoading: false});
-        this.setFocusedOption(0, options);
+        this.setState({options: options, isLoading: false }, () =>{
+            this.focusContainer();
+            this.setFocusedOption(0, options);
+        });
+    }
+
+    focusContainer() {
+        this.refs.dropdownMenu.focus();
     }
 
     setFilterValue(value) {
@@ -95,6 +120,12 @@ class RDropdown extends Component {
         }
         this.setFilteredOptions(null);
         this.setFocusedOption(0, this.state.options);
+    }
+
+    handleApply() {
+        if(this.props.onApply) {
+            this.close();
+        }
     }
 
     setFocusedOption(index, options) {
@@ -125,16 +156,17 @@ class RDropdown extends Component {
         }
     }
 
-    get options() {
-      return this.state.filteredOptions || this.state.options;
+    getOptions() {
+        return this.state.filteredOptions || this.state.options;
     }
+
     handleKeyDown(e) {
-        const options = this.state.filteredOptions || this.state.options;
+        const options = this.getOptions();
         if (options.length > 0 && this.state.isLoading === false) {
             switch (e.keyCode) {
                 case 13:
                     // Enter key pressed
-                    this.handleItemSelected(this.state.focusedOption);
+                    this.handleOptionSelected(this.state.focusedOption);
                     return;
                 case 27:
                     // Escape key pressed
@@ -158,14 +190,28 @@ class RDropdown extends Component {
         if (this.props.filterEnabled) {
             return (
                 <div className="dropdown-menu-filter">
-                    <input autoFocus={true} type="text" onChange={this.handleFilter} value={this.state.filterValue || ''} placeholder={this.props.filterPlaceholder}/>
+                    <input autoFocus={true} tabIndex={0} ref="filterInput" type="text" onChange={this.handleFilter} value={this.state.filterValue || ''} placeholder={this.props.filterPlaceholder}/>
                 </div>
             );
         }
     }
 
+    renderApply() {
+        const {onApply, applyText} = this.props;
+        const {isLoading } = this.state;
+        if(!isLoading && onApply) {
+            return(
+                <div className="dropdown-menu-apply">
+                    <button onClick={this.handleApply} className="dropdown-menu-apply-btn">
+                        { applyText }
+                    </button>
+                </div>
+            )
+        }
+    }
+
     renderOptions() {
-        const options = this.state.filteredOptions || this.state.options;
+        const options = this.getOptions();
         if (options.length === 0) {
             return (
                 <div className="dropdown-menu-no-results">{this.props.noOptionsFoundText}</div>
@@ -177,7 +223,7 @@ class RDropdown extends Component {
                     <a key={index}
                        className="dropdown-menu-list-item dropdown-menu-list-item-focused"
                        ref={`option_${index}`}
-                       onClick={this.handleItemSelected.bind(this, option)}>
+                       onClick={this.handleOptionSelected.bind(this, option)}>
                         {this.props.renderOption(option)}
                     </a>
                 );
@@ -186,7 +232,7 @@ class RDropdown extends Component {
                 <a key={index}
                    className="dropdown-menu-list-item"
                    ref={`option_${index}`}
-                   onClick={this.handleItemSelected.bind(this, option)}>
+                   onClick={this.handleOptionSelected.bind(this, option)}>
                     {this.props.renderOption(option)}
                 </a>
             )
@@ -232,12 +278,13 @@ class RDropdown extends Component {
 
     render() {
         return (
-            <div className="dropdown-menu" onKeyDown={this.handleKeyDown}>
+            <div tabIndex="0" className="dropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
                 <div className="dropdown-menu-header">
                     <button className="dropdown-menu-close" onClick={this.props.onClose}>×</button>
                     <span className="dropdown-menu-title">{this.props.headerTitle}</span>
                 </div>
                 {this.renderList()}
+                {this.renderApply()}
             </div>
         );
     }

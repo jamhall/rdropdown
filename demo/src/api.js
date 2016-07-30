@@ -1,7 +1,6 @@
-export default {
-    getCountries() {
-        const countries = [
-
+class Api {
+    constructor() {
+        this.countries = [
           { name: "Austria", code: "AT" },
           { name: "Belgium", code: "BE" },
           { name: "Bulgaria", code: "BG" },
@@ -30,11 +29,18 @@ export default {
           { name: "Spain", code: "ES" },
           { name: "Sweden", code: "SE" },
           { name: "United Kingdom", code: "GB" },
-        ]
+      ];
+    }
+    getCountriesAsync() {
         return new Promise((resolve, reject) => {
             window.setTimeout(() => {
-                resolve(countries)
-            }, 700);
+                resolve(this.countries)
+            }, 500);
         });
     }
+    getCountries() {
+        return this.countries;
+    }
 }
+
+export default Api;
