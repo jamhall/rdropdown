@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
-
 import RDropdown from '../../../src/rdropdown';
-import Fuse from 'fuse.js';
 import Api from '../api';
 
 class BaseSingleDropdown extends Component {
     constructor(props) {
-
         super(props);
         this.api = new Api();
         this.onButtonClick = this.onButtonClick.bind(this);

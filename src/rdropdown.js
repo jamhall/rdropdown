@@ -4,13 +4,13 @@ class RDropdown extends Component {
     static propTypes = {
         renderOption: PropTypes.func.isRequired,
         onSelectedOptions: PropTypes.func.isRequired,
+        onClose: PropTypes.func.isRequired,
+        onFilteredOptions: PropTypes.func,
         multiple: PropTypes.bool,
-        headerTitle: PropTypes.string.isRequired,
+        headerTitle: PropTypes.string,
         filterEnabled: PropTypes.bool,
         filterPlaceholder: PropTypes.string,
         noOptionsFoundText: PropTypes.string,
-        onFilter: PropTypes.func,
-        onClose: PropTypes.func.isRequired,
         enableEsc: PropTypes.bool,
         errorText: PropTypes.string,
         applyOptions: PropTypes.bool,
@@ -26,7 +26,8 @@ class RDropdown extends Component {
         applyText: 'Apply',
         applyOptions: false,
         selectedOption: null,
-        multiple: false
+        multiple: false,
+        headerTitle: 'Filter'
     }
 
     constructor(props) {
@@ -42,14 +43,14 @@ class RDropdown extends Component {
         }
 
         this.handleFilter = this.handleFilter.bind(this);
-        this.handleSelectedOption = this.handleSelectedOption.bind(this);
+        this.handleOptionSelected = this.handleOptionSelected.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleApply = this.handleApply.bind(this);
         this.handleError = this.handleError.bind(this);
-        this.setFilterValue = this.setFilterValue.bind(this);
         this.handleError = this.handleError.bind(this);
+
+        this.setFilterValue = this.setFilterValue.bind(this);
         this.setOptions = this.setOptions.bind(this);
-        this.focusContainer = this.focusContainer.bind(this);
     }
 
     componentDidMount() {
@@ -71,31 +72,6 @@ class RDropdown extends Component {
         }
     }
 
-    handleError(err) {
-        console.error('An error occurred', err);
-        this.setState({
-            errorOccurred: true
-        });
-    }
-
-    handleClose() {
-        this.props.onClose();
-    }
-
-
-    handleError(err) {
-      this.setState({
-        errorOccurred: true
-      });
-    }
-
-    handleSelectedOption(option) {
-        const {applyOptions} = this.props;
-        if(!applyOptions) {
-            this.props.onSelectedOptions(option);
-        }
-    }
-
     setFilteredOptions(options) {
         this.setState({filteredOptions: options})
     }
@@ -107,7 +83,6 @@ class RDropdown extends Component {
 
     setOptions(options) {
         this.setState({options: options, isLoading: false }, () =>{
-            this.focusContainer();
             const {selectedOption} = this.props;
             if(selectedOption) {
                 this.setFocusedOption(this.getIndexForOption(selectedOption), options);
@@ -126,33 +101,11 @@ class RDropdown extends Component {
         return 0;
     }
 
-    focusContainer() {
-        this.refs.dropdownMenu.focus();
-    }
-
     setFilterValue(value) {
         this.setState({filterValue: value});
     }
 
-    handleFilter(event) {
-        const value = event.target.value;
-        this.setFilterValue(value);
-        if (value) {
-            const options = this.state.options;
-            const filteredOptions = this.props.onFilter(value, options);
-            this.setFilteredOptions(filteredOptions);
-            this.setFocusedOption(0, filteredOptions);
-            return;
-        }
-        this.setFilteredOptions(null);
-        this.setFocusedOption(0, this.state.options);
-    }
 
-    handleApply() {
-        if(this.props.onApply) {
-            this.close();
-        }
-    }
 
     setFocusedOption(index, options) {
         if (options.length > 0) {
@@ -182,7 +135,49 @@ class RDropdown extends Component {
         }
     }
 
+    handleError(err) {
+        console.error('An error occurred', err);
+        this.setState({
+            errorOccurred: true
+        });
+    }
 
+    handleClose() {
+        this.props.onClose();
+    }
+
+    handleError(err) {
+      this.setState({
+        errorOccurred: true
+      });
+    }
+
+    handleFilter(event) {
+        const value = event.target.value;
+        this.setFilterValue(value);
+        if (value) {
+            const options = this.state.options;
+            const filteredOptions = this.props.onFilteredOptions(value, options);
+            this.setFilteredOptions(filteredOptions);
+            this.setFocusedOption(0, filteredOptions);
+            return;
+        }
+        this.setFilteredOptions(null);
+        this.setFocusedOption(0, this.state.options);
+    }
+
+    handleApply() {
+        if(this.props.onApply) {
+            this.close();
+        }
+    }
+
+    handleOptionSelected(option) {
+        const {applyOptions} = this.props;
+        if(!applyOptions) {
+            this.props.onSelectedOptions(option);
+        }
+    }
 
     handleKeyDown(e) {
         const options = this.getOptions();
@@ -190,7 +185,7 @@ class RDropdown extends Component {
             switch (e.keyCode) {
                 case 13:
                     // Enter key pressed
-                    this.handleSelectedOption(this.state.focusedOption);
+                    this.handleOptionSelected(this.state.focusedOption);
                     return;
                 case 27:
                     // Escape key pressed
@@ -277,7 +272,7 @@ class RDropdown extends Component {
                 <a key={index}
                    className={ this.buildClassNamesForOption(option)}
                    ref={`option_${index}`}
-                   onClick={this.handleSelectedOption.bind(this, option)}>
+                   onClick={this.handleOptionSelected.bind(this, option)}>
                     {this.props.renderOption(option)}
                 </a>
             )

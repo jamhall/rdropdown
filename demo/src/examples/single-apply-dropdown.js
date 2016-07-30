@@ -27,19 +27,12 @@ class SingleApplyDropdown extends BaseSingleDropdown {
                 <RDropdown options={ countries }
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
-                  onFilter={this.onFilter}
+                  onFilteredOptions={this.onFilter}
+                  applyOptions = { true }
                   headerTitle={"Filter by country"}
                   filterEnabled={true}
                   filterPlaceholder={"Filter countries"}
-                  applyOptions = { true }
                   noOptionsFoundText={ "No country found. Sorry about that."}
-                  onFilter={ (value, options) => {
-                      const fuse = new Fuse(options, {
-                          keys: ["name"],
-                          threshold: 0
-                      });
-                      return fuse.search(value);
-                  }}
                   renderOption={(option) => {
                       return (
                           <div>

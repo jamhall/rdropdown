@@ -33,7 +33,7 @@ class SingleAsyncDropdown extends BaseSingleDropdown {
                   filterEnabled={true}
                   filterPlaceholder={"Filter countries"}
                   noOptionsFoundText={ "No country found. Sorry about that."}
-                  onFilter={ (value, options) => {
+                  onFilteredOptions={ (value, options) => {
                       const fuse = new Fuse(options, {
                           keys: ["name"],
                           threshold: 0

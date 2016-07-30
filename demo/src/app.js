@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import '../resources/css/styles.css';
-import '../resources/css/buttons.css';
-
-import '../../src/rdropdown.css';
 import SingleDropdown from './examples/single-dropdown';
 import SingleFilterDropdown from './examples/single-filter-dropdown';
 import SingleAsyncDropdown from './examples/single-async-dropdown';
 import SingleApplyDropdown from './examples/single-apply-dropdown';
+import '../resources/css/styles.css';
+import '../resources/css/buttons.css';
+import '../../src/rdropdown.css';
 
 class App extends Component {
     constructor(props) {

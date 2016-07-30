@@ -32,7 +32,7 @@ class SingleFilterDropdown extends BaseSingleDropdown {
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
                   selectedOption={this.state.selectedOption}
-                  onFilter={this.onFilter}
+                  onFilteredOptions={this.onFilter}
                   headerTitle={"Filter by country"}
                   filterEnabled={true}
                   filterPlaceholder={"Filter countries"}
