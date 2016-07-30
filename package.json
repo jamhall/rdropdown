@@ -8,8 +8,7 @@
     "start": " NODE_ENV=development webpack-dev-server --hot --inline --config webpack.config.dev.js",
     "build:demo": "npm run clean:demo && NODE_ENV=production webpack --config webpack.config.demo.js -p --bail",
     "clean:demo": "rimraf build",
-    "build": "webpack --config webpack.config.js --bail",
-    "lint": "standard"
+    "build": "webpack --config webpack.config.js --bail"
   },
   "repository": {
     "type": "git",

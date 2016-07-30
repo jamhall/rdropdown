@@ -46,7 +46,7 @@ class BaseSingleDropdown extends Component {
 
 
     getFlagImageSource(option) {
-        return "/flags/" + option.code.toLowerCase() + ".png";
+        return "flags/" + option.code.toLowerCase() + ".png";
     }
 
     render() {

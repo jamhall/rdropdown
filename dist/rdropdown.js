@@ -1,14 +1,5 @@
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"));
-	else if(typeof define === 'function' && define.amd)
-		define(["react"], factory);
-	else if(typeof exports === 'object')
-		exports["RDropdown"] = factory(require("react"));
-	else
-		root["RDropdown"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
-return /******/ (function(modules) { // webpackBootstrap
+var RDropdown =
+/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -82,55 +73,53 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RDropdown).call(this, props));
 
+	        _this.displayName = 'RDropdown';
+
 	        _this.state = {
-	            filterValue: null,
+	            searchValue: null,
 	            filteredOptions: null,
 	            options: props.options,
 	            isLoading: true,
 	            focusedOption: null,
-	            focusedIndex: 0
+	            focusedIndex: 0,
+	            preselectedOptions: []
 	        };
-	        _this.handleFilter = _this.handleFilter.bind(_this);
-	        _this.handleItemSelected = _this.handleItemSelected.bind(_this);
+
+	        _this.handleSearch = _this.handleSearch.bind(_this);
+	        _this.handleOptionSelected = _this.handleOptionSelected.bind(_this);
 	        _this.handleKeyDown = _this.handleKeyDown.bind(_this);
-	        _this.setFilterValue = _this.setFilterValue.bind(_this);
-
+	        _this.handleApply = _this.handleApply.bind(_this);
 	        _this.handleError = _this.handleError.bind(_this);
+	        _this.handleError = _this.handleError.bind(_this);
+
+	        _this.setSearchValue = _this.setSearchValue.bind(_this);
 	        _this.setOptions = _this.setOptions.bind(_this);
-
-	        if ('function' === typeof _this.props.options.then) {
-	            _this.props.options.then(_this.setOptions).catch(_this.handleError);
-	        } else {
-	            _this.setOptions(_this.props.options);
-	        }
-
 	        return _this;
 	    }
 
 	    _createClass(RDropdown, [{
-	        key: 'handleError',
-	        value: function handleError(err) {
-	            console.error('An error occurred', err);
-	            this.setState({
-	                errorOccurred: true
-	            });
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var options = this.props.options;
+	            if ('function' === typeof options.then) {
+	                options.then(this.setOptions).catch(this.handleError);
+	            } else {
+	                this.setOptions(options);
+	            }
 	        }
+
+	        /**
+	         * When the parent container has a tabIndex of 0, autofocusing an input element
+	         * does not work. We need to manually check if it has been rendered and then invoke the focus method
+	         */
+
 	    }, {
-	        key: 'handleClose',
-	        value: function handleClose() {
-	            this.props.onClose();
-	        }
-	    }, {
-	        key: 'handleError',
-	        value: function handleError(err) {
-	            this.setState({
-	                errorOccurred: true
-	            });
-	        }
-	    }, {
-	        key: 'handleItemSelected',
-	        value: function handleItemSelected(option) {
-	            this.props.onOptionSelected(option);
+	        key: 'componentDidUpdate',
+	        value: function componentDidUpdate() {
+	            var searchInput = this.refs.searchInput;
+	            if (searchInput) {
+	                searchInput.focus();
+	            }
 	        }
 	    }, {
 	        key: 'setFilteredOptions',
@@ -138,30 +127,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.setState({ filteredOptions: options });
 	        }
 	    }, {
+	        key: 'getOptions',
+	        value: function getOptions() {
+	            var _state = this.state;
+	            var filteredOptions = _state.filteredOptions;
+	            var options = _state.options;
+
+	            return filteredOptions || options;
+	        }
+	    }, {
 	        key: 'setOptions',
 	        value: function setOptions(options) {
-	            this.setState({ options: options, isLoading: false });
-	            this.setFocusedOption(0, options);
+	            var _this2 = this;
+
+	            this.setState({ options: options, isLoading: false }, function () {
+	                var selectedOption = _this2.props.selectedOption;
+
+	                if (selectedOption) {
+	                    _this2.setFocusedOption(_this2.getIndexForOption(selectedOption), options);
+	                } else {
+	                    _this2.setFocusedOption(0, options);
+	                }
+	            });
 	        }
 	    }, {
-	        key: 'setFilterValue',
-	        value: function setFilterValue(value) {
-	            this.setState({ filterValue: value });
-	        }
-	    }, {
-	        key: 'handleFilter',
-	        value: function handleFilter(event) {
-	            var value = event.target.value;
-	            this.setFilterValue(value);
-	            if (value) {
-	                var options = this.state.options;
-	                var filteredOptions = this.props.onFilter(value, options);
-	                this.setFilteredOptions(filteredOptions);
-	                this.setFocusedOption(0, filteredOptions);
-	                return;
+	        key: 'getIndexForOption',
+	        value: function getIndexForOption(option) {
+	            var options = this.getOptions();
+	            if (options) {
+	                var index = options.findIndex(function (x) {
+	                    return x === option;
+	                });
+	                return index;
 	            }
-	            this.setFilteredOptions(null);
-	            this.setFocusedOption(0, this.state.options);
+	            return 0;
+	        }
+	    }, {
+	        key: 'setSearchValue',
+	        value: function setSearchValue(value) {
+	            this.setState({ searchValue: value });
 	        }
 	    }, {
 	        key: 'setFocusedOption',
@@ -195,74 +199,177 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	    }, {
+	        key: 'handleError',
+	        value: function handleError(err) {
+	            console.error('An error occurred', err);
+	            this.setState({
+	                errorOccurred: true
+	            });
+	        }
+	    }, {
+	        key: 'handleClose',
+	        value: function handleClose() {
+	            this.props.onClose();
+	        }
+	    }, {
+	        key: 'handleError',
+	        value: function handleError(err) {
+	            this.setState({
+	                errorOccurred: true
+	            });
+	        }
+	    }, {
+	        key: 'handleSearch',
+	        value: function handleSearch(event) {
+	            var value = event.target.value;
+	            this.setSearchValue(value);
+	            if (value) {
+	                var options = this.state.options;
+	                var filteredOptions = this.props.onSearch(value, options);
+	                this.setFilteredOptions(filteredOptions);
+	                this.setFocusedOption(0, filteredOptions);
+	                return;
+	            }
+	            this.setFilteredOptions(null);
+	            this.setFocusedOption(0, this.state.options);
+	        }
+	    }, {
+	        key: 'handleApply',
+	        value: function handleApply() {
+	            if (this.props.onApply) {
+	                this.close();
+	            }
+	        }
+	    }, {
+	        key: 'handleOptionSelected',
+	        value: function handleOptionSelected(option) {
+	            var applyOptions = this.props.applyOptions;
+
+	            if (!applyOptions) {
+	                this.props.onSelectedOptions(option);
+	            }
+	        }
+	    }, {
 	        key: 'handleKeyDown',
 	        value: function handleKeyDown(e) {
-	            var options = this.state.filteredOptions || this.state.options;
-	            if (options.length > 0 && this.state.isLoading === false) {
+	            var options = this.getOptions();
+	            var isLoading = this.state.isLoading;
+
+	            if (options.length > 0 && !isLoading) {
+	                var keys = {
+	                    DOWN: 40,
+	                    UP: 38,
+	                    ESCAPE: 27,
+	                    ENTER: 13
+	                };
 	                switch (e.keyCode) {
-	                    case 13:
-	                        // Enter key pressed
-	                        this.handleItemSelected(this.state.focusedOption);
+	                    case keys.ENTER:
+	                        this.handleOptionSelected(this.state.focusedOption);
 	                        return;
-	                    case 27:
-	                        // Escape key pressed
+	                    case keys.ESCAPE:
 	                        if (this.props.enableEsc) {
 	                            this.handleClose();
 	                        }
 	                        return;
-	                    // Down key pressed
-	                    case 40:
+	                    case keys.DOWN:
 	                        this.focusOption(1, options);
+	                        e.preventDefault();
 	                        return;
-	                    // Up key pressed
-	                    case 38:
+	                    case keys.UP:
 	                        this.focusOption(-1, options);
+	                        e.preventDefault();
 	                        return;
 	                }
 	            }
 	        }
 	    }, {
-	        key: 'renderFilter',
-	        value: function renderFilter() {
-	            if (this.props.filterEnabled) {
+	        key: 'renderSearch',
+	        value: function renderSearch() {
+	            var searchable = this.props.searchable;
+
+	            if (searchable) {
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-filter' },
-	                    _react2.default.createElement('input', { autoFocus: true, type: 'text', onChange: this.handleFilter, value: this.state.filterValue || '', placeholder: this.props.filterPlaceholder })
+	                    _react2.default.createElement('input', { autoFocus: true, tabIndex: 0, ref: 'searchInput', type: 'text', onChange: this.handleSearch, value: this.state.searchValue || '', placeholder: this.props.searchPlaceholder })
 	                );
 	            }
+	        }
+	    }, {
+	        key: 'renderApply',
+	        value: function renderApply() {
+	            var _props = this.props;
+	            var onApply = _props.onApply;
+	            var applyText = _props.applyText;
+	            var isLoading = this.state.isLoading;
+
+	            if (!isLoading && onApply) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: 'dropdown-menu-apply' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.handleApply, className: 'dropdown-menu-apply-btn' },
+	                        applyText
+	                    )
+	                );
+	            }
+	        }
+	    }, {
+	        key: 'isSelectedOption',
+	        value: function isSelectedOption(option) {
+	            var selectedOption = this.props.selectedOption;
+
+	            if (selectedOption) {
+	                return selectedOption === option;
+	            }
+	            return false;
+	        }
+	    }, {
+	        key: 'isFocusedOption',
+	        value: function isFocusedOption(option) {
+	            var focusedOption = this.state.focusedOption;
+
+	            if (focusedOption) {
+	                return focusedOption === option;
+	            }
+	            return false;
+	        }
+	    }, {
+	        key: 'buildClassNamesForOption',
+	        value: function buildClassNamesForOption(option) {
+	            var selectedClasses = "dropdown-menu-list-item dropdown-menu-list-option-selected";
+	            var normalClass = "dropdown-menu-list-item";
+	            var focusedClasses = "dropdown-menu-list-item dropdown-menu-list-option-focused";
+	            var classNames = normalClass;
+	            if (this.isSelectedOption(option)) {
+	                classNames = selectedClasses;
+	            } else if (this.isFocusedOption(option) && !this.isSelectedOption(option)) {
+	                classNames = focusedClasses;
+	            }
+	            return classNames;
 	        }
 	    }, {
 	        key: 'renderOptions',
 	        value: function renderOptions() {
-	            var _this2 = this;
+	            var _this3 = this;
 
-	            var options = this.state.filteredOptions || this.state.options;
+	            var options = this.getOptions();
 	            if (options.length === 0) {
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-no-results' },
-	                    this.props.noOptionsFoundText
+	                    this.props.noResultsText
 	                );
 	            }
 	            var renderedOptions = options.map(function (option, index) {
-	                if (_this2.state.focusedOption === option) {
-	                    return _react2.default.createElement(
-	                        'a',
-	                        { key: index,
-	                            className: 'dropdown-menu-list-item dropdown-menu-list-item-focused',
-	                            ref: 'option_' + index,
-	                            onClick: _this2.handleItemSelected.bind(_this2, option) },
-	                        _this2.props.renderOption(option)
-	                    );
-	                }
 	                return _react2.default.createElement(
 	                    'a',
 	                    { key: index,
-	                        className: 'dropdown-menu-list-item',
+	                        className: _this3.buildClassNamesForOption(option),
 	                        ref: 'option_' + index,
-	                        onClick: _this2.handleItemSelected.bind(_this2, option) },
-	                    _this2.props.renderOption(option)
+	                        onClick: _this3.handleOptionSelected.bind(_this3, option) },
+	                    _this3.props.renderOption(option)
 	                );
 	            });
 	            return _react2.default.createElement(
@@ -274,14 +381,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'renderList',
 	        value: function renderList() {
-	            if (this.state.errorOccurred) {
+	            var _state2 = this.state;
+	            var errorOccurred = _state2.errorOccurred;
+	            var isLoading = _state2.isLoading;
+	            var errorText = this.props.errorText;
+
+	            if (errorOccurred) {
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-no-results' },
-	                    this.props.errorText
+	                    errorText
 	                );
 	            }
-	            if (this.state.isLoading) {
+	            if (isLoading) {
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-loading' },
@@ -303,37 +415,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'dropdown-menu-filters' },
-	                this.renderFilter(),
+	                this.renderSearch(),
 	                this.renderOptions()
 	            );
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _props2 = this.props;
+	            var title = _props2.title;
+	            var onClose = _props2.onClose;
+
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'dropdown-menu', onKeyDown: this.handleKeyDown },
+	                { tabIndex: '0', className: 'dropdown-menu', ref: 'dropdownMenu', onKeyDown: this.handleKeyDown },
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-header' },
 	                    _react2.default.createElement(
 	                        'button',
-	                        { className: 'dropdown-menu-close', onClick: this.props.onClose },
+	                        { className: 'dropdown-menu-close', onClick: onClose },
 	                        '×'
 	                    ),
 	                    _react2.default.createElement(
 	                        'span',
 	                        { className: 'dropdown-menu-title' },
-	                        this.props.headerTitle
+	                        title
 	                    )
 	                ),
-	                this.renderList()
+	                this.renderList(),
+	                this.renderApply()
 	            );
-	        }
-	    }, {
-	        key: 'options',
-	        get: function get() {
-	            return this.state.filteredOptions || this.state.options;
 	        }
 	    }]);
 
@@ -342,22 +454,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	RDropdown.propTypes = {
 	    renderOption: _react.PropTypes.func.isRequired,
-	    onOptionSelected: _react.PropTypes.func.isRequired,
-	    headerTitle: _react.PropTypes.string.isRequired,
-	    filterEnabled: _react.PropTypes.bool,
-	    filterPlaceholder: _react.PropTypes.string,
-	    noOptionsFoundText: _react.PropTypes.string,
-	    onFilter: _react.PropTypes.func,
+	    onSelectedOptions: _react.PropTypes.func.isRequired,
+	    selectedOption: _react.PropTypes.any,
 	    onClose: _react.PropTypes.func.isRequired,
+	    onSearch: _react.PropTypes.func,
+	    multiple: _react.PropTypes.bool,
+	    title: _react.PropTypes.string,
+	    searchable: _react.PropTypes.bool,
+	    searchPlaceholder: _react.PropTypes.string,
+	    noResultsText: _react.PropTypes.string,
 	    enableEsc: _react.PropTypes.bool,
-	    errorText: _react.PropTypes.string
+	    errorText: _react.PropTypes.string,
+	    applyOptions: _react.PropTypes.bool,
+	    applyText: _react.PropTypes.string
 	};
 	RDropdown.defaultProps = {
-	    filterEnabled: false,
-	    filterPlaceholder: 'Filter...',
-	    noOptionsFoundText: 'No results',
+	    searchable: false,
+	    searchPlaceholder: 'Search...',
+	    noResultsText: 'No results',
 	    enableEsc: true,
-	    errorText: 'An error occurred.'
+	    errorText: 'An error occurred.',
+	    applyText: 'Apply',
+	    applyOptions: false,
+	    selectedOption: null,
+	    multiple: false,
+	    title: 'Filter'
 	};
 	exports.default = RDropdown;
 
@@ -365,9 +486,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+	module.exports = undefined;
 
 /***/ }
-/******/ ])
-});
-;
+/******/ ]);
