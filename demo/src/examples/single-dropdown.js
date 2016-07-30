@@ -22,7 +22,7 @@ class SingleDropdown extends BaseSingleDropdown {
                   options={ countries }
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
-                  selectedOption={this.state.selectedOption}
+                  selectedOptions={this.state.selectedOptions}
                   renderOption={(option) => {
                       return (
                           <div>

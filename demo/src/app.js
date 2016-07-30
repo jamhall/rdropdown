@@ -20,7 +20,7 @@ class App extends Component {
             <div>
                 <header className="header">
                     <h1>RDropdown</h1>
-                    <p>A Github-flavoured dropdown menu for ReactJs.</p>
+                    <p>Single or multiple Github-flavoured dropdown menus for ReactJs.</p>
                 </header>
                 <nav className="navigation">
                     <div className="container">
@@ -32,7 +32,6 @@ class App extends Component {
                 </nav>
                 <div className="content">
                     <div className="container">
-                        <div className="alert-info">RDropdown supports single or multiple select dropdowns</div>
                         <Tabs selectedIndex={0}>
                         <TabList>
                             <Tab>Single select</Tab>
@@ -55,7 +54,7 @@ class App extends Component {
                             </div>
                             <div className="example">
                                 <h2>Countries (search)</h2>
-                                <p>You can also filter options by setting a couple of options</p>
+                                <p>You can also filter options by setting a couple of options. <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-search-dropdown.js">Source</a></p>
                                 <SingleSearchDropdown />
                                 <div className="info">
                                     <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-search-dropdown.js">Source</a>
@@ -64,10 +63,16 @@ class App extends Component {
                             <div className="example">
                                 <h2>Countries (custom option renderer)</h2>
                                 <SingleDropdownCustomOptionRenderer />
+                                <div className="info">
+                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-dropdown-custom-option-renderer.js">Source</a>
+                                </div>
                             </div>
                             <div className="example">
                                 <h2>Countries (apply selected options)</h2>
                                 <SingleApplyDropdown />
+                                <div className="info">
+                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-apply-dropdown.js">Source</a>
+                                </div>
                             </div>
                         </TabPanel>
                         <TabPanel>

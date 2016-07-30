@@ -4,7 +4,7 @@ class RDropdown extends Component {
     static propTypes = {
         renderOption: PropTypes.func.isRequired,
         onSelectedOptions: PropTypes.func.isRequired,
-        selectedOption: PropTypes.any,
+        selectedOptions: PropTypes.any,
         onClose: PropTypes.func.isRequired,
         onSearch: PropTypes.func,
         multiple: PropTypes.bool,
@@ -26,9 +26,10 @@ class RDropdown extends Component {
         errorText: 'An error occurred.',
         applyText: 'Apply',
         applyOptions: false,
-        selectedOption: null,
+        selectedOptions: null,
         multiple: false,
-        title: 'Filter'
+        title: 'Filter',
+        multiple: false
     }
 
     constructor(props) {
@@ -83,14 +84,35 @@ class RDropdown extends Component {
         return filteredOptions || options;
     }
 
+    intialisePreselectedOptions() {
+        const {selectedOptions} = this.props;
+        if(selectedOptions) {
+            if(Array.isArray(selectedOptions)) {
+                this.setPreselectedOptions(selectedOptions);
+            } else {
+                this.setPreselectedOptions([selectedOptions]);
+            }
+        } else {
+            this.setPreselectedOptions([]);
+        }
+    }
+
+    setPreselectedOptions(options) {
+        const preselectedOptions = options.slice(0);
+        this.setState( {
+            preselectedOptions: preselectedOptions
+        }, () => {
+            if(preselectedOptions.length > 0 ) {
+                this.setFocusedOption(this.getIndexForOption(preselectedOptions[0]));
+            } else {
+                this.setFocusedOption(0);
+            }
+        });
+    }
+
     setOptions(options) {
         this.setState({options: options, isLoading: false }, () =>{
-            const {selectedOption} = this.props;
-            if(selectedOption) {
-                this.setFocusedOption(this.getIndexForOption(selectedOption), options);
-            } else {
-                this.setFocusedOption(0, options);
-            }
+            this.intialisePreselectedOptions();
         });
     }
 
@@ -98,16 +120,30 @@ class RDropdown extends Component {
         const options = this.getOptions();
         if(options) {
             const index = options.findIndex(x => x === option);
-            return index;
+            if(index > -1) {
+                return index;
+            }
         }
         return 0;
+    }
+
+    getIndexForPreselectedOption(option) {
+        const options = this.getPreselectedOptions();
+        if(options) {
+            const index = options.findIndex(x => x === option);
+            if(index > -1) {
+                return index;
+            }
+        }
+        return null;
     }
 
     setSearchValue(value) {
         this.setState({searchValue: value});
     }
 
-    setFocusedOption(index, options) {
+    setFocusedOption(index) {
+        const options = this.getOptions();
         if (options.length > 0) {
             this.setState({focusedOption: options[index], focusedIndex: index});
             this.scrollToFocusedOption(index);
@@ -128,10 +164,10 @@ class RDropdown extends Component {
         const focusedIndex = this.state.focusedIndex;
         if (direction > 0) {
             // Next option...
-            this.setFocusedOption(Math.min(options.length - 1, focusedIndex + 1), options);
+            this.setFocusedOption(Math.min(options.length - 1, focusedIndex + 1));
         } else {
             // Previous option...
-            this.setFocusedOption(Math.max(0, focusedIndex - 1), options);
+            this.setFocusedOption(Math.max(0, focusedIndex - 1));
         }
     }
 
@@ -166,16 +202,66 @@ class RDropdown extends Component {
         this.setFocusedOption(0, this.state.options);
     }
 
+    isMultiple() {
+        return this.props.multiple;
+    }
+
     handleApply() {
-        if(this.props.onApply) {
-            this.close();
+        this.props.onSelectedOptions(this.getSelectedOptions());
+    }
+
+    getSelectedOptions() {
+        const preselectedOptions = this.getPreselectedOptions();
+        if(this.isMultiple()) {
+            return preselectedOptions;
+        } else {
+            return preselectedOptions.length === 0 ? null : preselectedOptions[0];
         }
+    }
+
+    getPreselectedOptions() {
+        return this.state.preselectedOptions;
+    }
+
+    resetPreselectedOptions() {
+        this.setState({
+            preselectedOptions: []
+        });
+    }
+
+    addPreselectedOption(option) {
+        const {multiple} = this.props;
+        // if multiple is not set then only one option can be selected...
+        if(this.getPreselectedOptions().length > 0 && !this.multiple ) {
+            this.resetPreselectedOptions();
+        }
+
+        if(!this.isSelectedOption(option)) {
+            this.setState((state) => ({
+                preselectedOptions: state.preselectedOptions.concat(option)
+            }));
+        }
+    }
+
+    removePreselectedOption(option) {
+        this.setState((state) => ({
+            preselectedOptions: state.preselectedOptions.filter(x => ( x !== option))
+        }));
     }
 
     handleOptionSelected(option) {
         const {applyOptions} = this.props;
+        // move this out into a separate function...
+        const index = this.getIndexForPreselectedOption(option);
+        if(index) {
+            this.removePreselectedOption(option);
+        } else {
+            this.addPreselectedOption(option);
+        }
         if(!applyOptions) {
-            this.props.onSelectedOptions(option);
+            this.setState({}, () => {
+                this.props.onSelectedOptions(this.getSelectedOptions());
+            });
         }
     }
 
@@ -222,9 +308,9 @@ class RDropdown extends Component {
     }
 
     renderApply() {
-        const {onApply, applyText} = this.props;
+        const {applyOptions, applyText} = this.props;
         const {isLoading } = this.state;
-        if(!isLoading && onApply) {
+        if(!isLoading && applyOptions) {
             return(
                 <div className="dropdown-menu-apply">
                     <button onClick={this.handleApply} className="dropdown-menu-apply-btn">
@@ -236,9 +322,9 @@ class RDropdown extends Component {
     }
 
     isSelectedOption(option) {
-        const {selectedOption} = this.props;
-        if(selectedOption) {
-            return selectedOption === option;
+        const {preselectedOptions} = this.state;
+        if(preselectedOptions.find((x) => x === option)) {
+            return true;
         }
         return false;
     }

@@ -18,7 +18,7 @@ class SingleAsyncDropdown extends BaseSingleDropdown {
                 <RDropdown options={ countries }
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
-                  selectedOption={this.state.selectedOption}
+                  selectedOptions={this.state.selectedOptions}
                   title={"Countries"}
                   renderOption={(option) => {
                       return (

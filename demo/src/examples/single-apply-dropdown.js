@@ -27,6 +27,7 @@ class SingleApplyDropdown extends BaseSingleDropdown {
                 <RDropdown options={ countries }
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
+                  selectedOptions={this.state.selectedOptions}
                   onSearch={this.onSearch}
                   applyOptions = { true }
                   title={"Countries"}

@@ -59,6 +59,8 @@ var RDropdown =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -107,18 +109,17 @@ var RDropdown =
 	                this.setOptions(options);
 	            }
 	        }
-
-	        /**
-	         * When the parent container has a tabIndex of 0, autofocusing an input element
-	         * does not work. We need to manually check if it has been rendered and then invoke the focus method
-	         */
-
 	    }, {
 	        key: 'componentDidUpdate',
 	        value: function componentDidUpdate() {
-	            var searchInput = this.refs.searchInput;
+	            var _refs = this.refs;
+	            var searchInput = _refs.searchInput;
+	            var dropdownMenu = _refs.dropdownMenu;
+
 	            if (searchInput) {
 	                searchInput.focus();
+	            } else {
+	                dropdownMenu.focus();
 	            }
 	        }
 	    }, {
@@ -136,18 +137,43 @@ var RDropdown =
 	            return filteredOptions || options;
 	        }
 	    }, {
-	        key: 'setOptions',
-	        value: function setOptions(options) {
+	        key: 'intialisePreselectedOptions',
+	        value: function intialisePreselectedOptions() {
+	            var selectedOptions = this.props.selectedOptions;
+
+	            if (selectedOptions) {
+	                if (Array.isArray(selectedOptions)) {
+	                    this.setPreselectedOptions(selectedOptions);
+	                } else {
+	                    this.setPreselectedOptions([selectedOptions]);
+	                }
+	            } else {
+	                this.setPreselectedOptions([]);
+	            }
+	        }
+	    }, {
+	        key: 'setPreselectedOptions',
+	        value: function setPreselectedOptions(options) {
 	            var _this2 = this;
 
-	            this.setState({ options: options, isLoading: false }, function () {
-	                var selectedOption = _this2.props.selectedOption;
-
-	                if (selectedOption) {
-	                    _this2.setFocusedOption(_this2.getIndexForOption(selectedOption), options);
+	            var preselectedOptions = options.slice(0);
+	            this.setState({
+	                preselectedOptions: preselectedOptions
+	            }, function () {
+	                if (preselectedOptions.length > 0) {
+	                    _this2.setFocusedOption(_this2.getIndexForOption(preselectedOptions[0]));
 	                } else {
-	                    _this2.setFocusedOption(0, options);
+	                    _this2.setFocusedOption(0);
 	                }
+	            });
+	        }
+	    }, {
+	        key: 'setOptions',
+	        value: function setOptions(options) {
+	            var _this3 = this;
+
+	            this.setState({ options: options, isLoading: false }, function () {
+	                _this3.intialisePreselectedOptions();
 	            });
 	        }
 	    }, {
@@ -158,9 +184,25 @@ var RDropdown =
 	                var index = options.findIndex(function (x) {
 	                    return x === option;
 	                });
-	                return index;
+	                if (index > -1) {
+	                    return index;
+	                }
 	            }
 	            return 0;
+	        }
+	    }, {
+	        key: 'getIndexForPreselectedOption',
+	        value: function getIndexForPreselectedOption(option) {
+	            var options = this.getPreselectedOptions();
+	            if (options) {
+	                var index = options.findIndex(function (x) {
+	                    return x === option;
+	                });
+	                if (index > -1) {
+	                    return index;
+	                }
+	            }
+	            return null;
 	        }
 	    }, {
 	        key: 'setSearchValue',
@@ -169,7 +211,8 @@ var RDropdown =
 	        }
 	    }, {
 	        key: 'setFocusedOption',
-	        value: function setFocusedOption(index, options) {
+	        value: function setFocusedOption(index) {
+	            var options = this.getOptions();
 	            if (options.length > 0) {
 	                this.setState({ focusedOption: options[index], focusedIndex: index });
 	                this.scrollToFocusedOption(index);
@@ -192,10 +235,10 @@ var RDropdown =
 	            var focusedIndex = this.state.focusedIndex;
 	            if (direction > 0) {
 	                // Next option...
-	                this.setFocusedOption(Math.min(options.length - 1, focusedIndex + 1), options);
+	                this.setFocusedOption(Math.min(options.length - 1, focusedIndex + 1));
 	            } else {
 	                // Previous option...
-	                this.setFocusedOption(Math.max(0, focusedIndex - 1), options);
+	                this.setFocusedOption(Math.max(0, focusedIndex - 1));
 	            }
 	        }
 	    }, {
@@ -234,19 +277,83 @@ var RDropdown =
 	            this.setFocusedOption(0, this.state.options);
 	        }
 	    }, {
+	        key: 'isMultiple',
+	        value: function isMultiple() {
+	            return this.props.multiple;
+	        }
+	    }, {
 	        key: 'handleApply',
 	        value: function handleApply() {
-	            if (this.props.onApply) {
-	                this.close();
+	            this.props.onSelectedOptions(this.getSelectedOptions());
+	        }
+	    }, {
+	        key: 'getSelectedOptions',
+	        value: function getSelectedOptions() {
+	            var preselectedOptions = this.getPreselectedOptions();
+	            if (this.isMultiple()) {
+	                return preselectedOptions;
+	            } else {
+	                return preselectedOptions.length === 0 ? null : preselectedOptions[0];
 	            }
+	        }
+	    }, {
+	        key: 'getPreselectedOptions',
+	        value: function getPreselectedOptions() {
+	            return this.state.preselectedOptions;
+	        }
+	    }, {
+	        key: 'resetPreselectedOptions',
+	        value: function resetPreselectedOptions() {
+	            this.setState({
+	                preselectedOptions: []
+	            });
+	        }
+	    }, {
+	        key: 'addPreselectedOption',
+	        value: function addPreselectedOption(option) {
+	            var multiple = this.props.multiple;
+	            // if multiple is not set then only one option can be selected...
+
+	            if (this.getPreselectedOptions().length > 0 && !this.multiple) {
+	                this.resetPreselectedOptions();
+	            }
+
+	            if (!this.isSelectedOption(option)) {
+	                this.setState(function (state) {
+	                    return {
+	                        preselectedOptions: state.preselectedOptions.concat(option)
+	                    };
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'removePreselectedOption',
+	        value: function removePreselectedOption(option) {
+	            this.setState(function (state) {
+	                return {
+	                    preselectedOptions: state.preselectedOptions.filter(function (x) {
+	                        return x !== option;
+	                    })
+	                };
+	            });
 	        }
 	    }, {
 	        key: 'handleOptionSelected',
 	        value: function handleOptionSelected(option) {
+	            var _this4 = this;
+
 	            var applyOptions = this.props.applyOptions;
 
+	            var index = this.getIndexForPreselectedOption(option);
+	            if (index) {
+	                this.removePreselectedOption(option);
+	            } else {
+	                this.addPreselectedOption(option);
+	            }
 	            if (!applyOptions) {
-	                this.props.onSelectedOptions(option);
+	                this.setState({}, function () {
+	                    _this4.props.onSelectedOptions(_this4.getSelectedOptions());
+	                });
 	            }
 	        }
 	    }, {
@@ -291,7 +398,7 @@ var RDropdown =
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-filter' },
-	                    _react2.default.createElement('input', { autoFocus: true, tabIndex: 0, ref: 'searchInput', type: 'text', onChange: this.handleSearch, value: this.state.searchValue || '', placeholder: this.props.searchPlaceholder })
+	                    _react2.default.createElement('input', { autoFocus: true, ref: 'searchInput', type: 'text', onChange: this.handleSearch, value: this.state.searchValue || '', placeholder: this.props.searchPlaceholder })
 	                );
 	            }
 	        }
@@ -299,11 +406,11 @@ var RDropdown =
 	        key: 'renderApply',
 	        value: function renderApply() {
 	            var _props = this.props;
-	            var onApply = _props.onApply;
+	            var applyOptions = _props.applyOptions;
 	            var applyText = _props.applyText;
 	            var isLoading = this.state.isLoading;
 
-	            if (!isLoading && onApply) {
+	            if (!isLoading && applyOptions) {
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-apply' },
@@ -318,10 +425,12 @@ var RDropdown =
 	    }, {
 	        key: 'isSelectedOption',
 	        value: function isSelectedOption(option) {
-	            var selectedOption = this.props.selectedOption;
+	            var preselectedOptions = this.state.preselectedOptions;
 
-	            if (selectedOption) {
-	                return selectedOption === option;
+	            if (preselectedOptions.find(function (x) {
+	                return x === option;
+	            })) {
+	                return true;
 	            }
 	            return false;
 	        }
@@ -352,7 +461,7 @@ var RDropdown =
 	    }, {
 	        key: 'renderOptions',
 	        value: function renderOptions() {
-	            var _this3 = this;
+	            var _this5 = this;
 
 	            var options = this.getOptions();
 	            if (options.length === 0) {
@@ -366,10 +475,10 @@ var RDropdown =
 	                return _react2.default.createElement(
 	                    'a',
 	                    { key: index,
-	                        className: _this3.buildClassNamesForOption(option),
+	                        className: _this5.buildClassNamesForOption(option),
 	                        ref: 'option_' + index,
-	                        onClick: _this3.handleOptionSelected.bind(_this3, option) },
-	                    _this3.props.renderOption(option)
+	                        onClick: _this5.handleOptionSelected.bind(_this5, option) },
+	                    _this5.props.renderOption(option)
 	                );
 	            });
 	            return _react2.default.createElement(
@@ -428,7 +537,7 @@ var RDropdown =
 
 	            return _react2.default.createElement(
 	                'div',
-	                { tabIndex: '0', className: 'dropdown-menu', ref: 'dropdownMenu', onKeyDown: this.handleKeyDown },
+	                { tabIndex: 0, className: 'dropdown-menu', ref: 'dropdownMenu', onKeyDown: this.handleKeyDown },
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-header' },
@@ -455,7 +564,7 @@ var RDropdown =
 	RDropdown.propTypes = {
 	    renderOption: _react.PropTypes.func.isRequired,
 	    onSelectedOptions: _react.PropTypes.func.isRequired,
-	    selectedOption: _react.PropTypes.any,
+	    selectedOptions: _react.PropTypes.any,
 	    onClose: _react.PropTypes.func.isRequired,
 	    onSearch: _react.PropTypes.func,
 	    multiple: _react.PropTypes.bool,
@@ -468,7 +577,7 @@ var RDropdown =
 	    applyOptions: _react.PropTypes.bool,
 	    applyText: _react.PropTypes.string
 	};
-	RDropdown.defaultProps = {
+	RDropdown.defaultProps = _defineProperty({
 	    searchable: false,
 	    searchPlaceholder: 'Search...',
 	    noResultsText: 'No results',
@@ -476,10 +585,10 @@ var RDropdown =
 	    errorText: 'An error occurred.',
 	    applyText: 'Apply',
 	    applyOptions: false,
-	    selectedOption: null,
+	    selectedOptions: null,
 	    multiple: false,
 	    title: 'Filter'
-	};
+	}, 'multiple', false);
 	exports.default = RDropdown;
 
 /***/ },

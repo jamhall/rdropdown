@@ -12,15 +12,16 @@ class BaseSingleDropdown extends Component {
 
         this.state = {
             dropdownVisible: false,
-            optionSelected: null
+            selectedOptions: null
         }
 
     }
 
-    onSelectedOptions(option) {
+    onSelectedOptions(options) {
+        console.log('Options', options);
         this.setState({
             dropdownVisible: !this.state.dropdownVisible,
-            selectedOption: option
+            selectedOptions: options
         });
     }
 
@@ -37,9 +38,10 @@ class BaseSingleDropdown extends Component {
     }
 
     renderSelectedOption() {
-      const option = this.state.selectedOption;
-      if(option) {
-        return (<div className="result"><b>Country: </b>{ option.name }</div>)
+      const options = this.state.selectedOptions;
+      if(options) {
+         const optionsJoined = Array.isArray(options) ?  options.map(x => x.name).join(',') : options.name;
+        return (<div className="result"><b>Country: </b>{ optionsJoined }</div>)
       }
       return <div className="result"><b>Country: </b>No country has been selected</div>
     }

@@ -12,7 +12,7 @@ class SingleSearchDropdown extends BaseSingleDropdown {
     }
 
     /**
-     * Perform a fuzzy search on the options. Return all matched options.
+     * Perform a search on the options. Return all matched options.
      * NB: The matched options must have exactly the same structure as the original options
      */
      onSearch(input, options) {
@@ -31,13 +31,12 @@ class SingleSearchDropdown extends BaseSingleDropdown {
                   options={ countries }
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
-                  selectedOption={this.state.selectedOption}
+                  selectedOptions={this.state.selectedOptions}
                   searchable={true}
                   onSearch={this.onSearch}
                   title={"Countries"}
                   searchPlaceholder={"Search countries"}
                   noResultsText={ "No country found. Sorry about that."}
-                  onSearch= { this.onFilter }
                   renderOption={(option) => {
                       return (
                           <div>
