@@ -105,8 +105,6 @@ class RDropdown extends Component {
         this.setState({filterValue: value});
     }
 
-
-
     setFocusedOption(index, options) {
         if (options.length > 0) {
             this.setState({focusedOption: options[index], focusedIndex: index});
@@ -181,25 +179,28 @@ class RDropdown extends Component {
 
     handleKeyDown(e) {
         const options = this.getOptions();
-        if (options.length > 0 && this.state.isLoading === false) {
+        const {isLoading} = this.state;
+        if (options.length > 0 &&  !isLoading) {
+            const keys = {
+                DOWN : 40,
+                UP: 38,
+                ESCAPE :27,
+                ENTER : 13
+            };
             switch (e.keyCode) {
-                case 13:
-                    // Enter key pressed
+                case keys.ENTER:
                     this.handleOptionSelected(this.state.focusedOption);
                     return;
-                case 27:
-                    // Escape key pressed
+                case keys.ESCAPE:
                     if(this.props.enableEsc) {
                       this.handleClose();
                     }
                     return;
-                    // Down key pressed
-                case 40:
+                case keys.DOWN:
                     this.focusOption(1, options);
                     e.preventDefault();
                     return;
-                    // Up key pressed
-                case 38:
+                case keys.UP:
                     this.focusOption(-1, options);
                     e.preventDefault();
                     return;
@@ -208,7 +209,8 @@ class RDropdown extends Component {
     }
 
     renderFilter() {
-        if (this.props.filterEnabled) {
+        const {filterEnabled} = this.props;
+        if (filterEnabled) {
             return (
                 <div className="dropdown-menu-filter">
                     <input autoFocus={true} tabIndex={0} ref="filterInput" type="text" onChange={this.handleFilter} value={this.state.filterValue || ''} placeholder={this.props.filterPlaceholder}/>
@@ -234,7 +236,7 @@ class RDropdown extends Component {
     isSelectedOption(option) {
         const {selectedOption} = this.props;
         if(selectedOption) {
-            return this.props.selectedOption === option;
+            return selectedOption === option;
         }
         return false;
     }
@@ -286,12 +288,14 @@ class RDropdown extends Component {
     }
 
     renderList() {
-        if(this.state.errorOccurred) {
+        const {errorOccurred, isLoading} = this.state;
+        const {errorText} = this.props;
+        if(errorOccurred) {
           return (
-              <div className="dropdown-menu-no-results">{ this.props.errorText }</div>
+              <div className="dropdown-menu-no-results">{ errorText }</div>
           )
         }
-        if (this.state.isLoading) {
+        if (isLoading) {
             return (
                 <div className="dropdown-menu-loading">
                     <div className="loading-spinner-grid">
@@ -317,11 +321,12 @@ class RDropdown extends Component {
     }
 
     render() {
+        const { headerTitle, onClose} = this.props;
         return (
             <div tabIndex="0" className="dropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
                 <div className="dropdown-menu-header">
-                    <button className="dropdown-menu-close" onClick={this.props.onClose}>×</button>
-                    <span className="dropdown-menu-title">{this.props.headerTitle}</span>
+                    <button className="dropdown-menu-close" onClick={onClose}>×</button>
+                    <span className="dropdown-menu-title">{headerTitle}</span>
                 </div>
                 {this.renderList()}
                 {this.renderApply()}
