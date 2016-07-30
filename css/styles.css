@@ -19,6 +19,14 @@ body {
     margin-top: 0;
     font-size: 1.2em;
 }
+
+.content .alert-info {
+    margin-bottom: 10px;
+    background: #3498db;
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+}
 .example {
     border-bottom: 1px solid #ccc;
     padding: 15px 0px 15px 0px;
