@@ -10,7 +10,7 @@ class BaseSingleDropdown extends Component {
         super(props);
         this.api = new Api();
         this.onButtonClick = this.onButtonClick.bind(this);
-        this.onOptionSelected = this.onOptionSelected.bind(this);
+        this.onSelectedOptions = this.onSelectedOptions.bind(this);
         this.onClose = this.onClose.bind(this);
 
         this.state = {
@@ -20,10 +20,10 @@ class BaseSingleDropdown extends Component {
 
     }
 
-    onOptionSelected(option) {
+    onSelectedOptions(option) {
         this.setState({
             dropdownVisible: !this.state.dropdownVisible,
-            optionSelected: option
+            selectedOption: option
         });
     }
 
@@ -40,7 +40,7 @@ class BaseSingleDropdown extends Component {
     }
 
     renderSelectedOption() {
-      const option = this.state.optionSelected;
+      const option = this.state.selectedOption;
       if(option) {
         return (<div className="example-result">Country selected: <b>{ option.name }</b></div>)
       }

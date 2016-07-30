@@ -19,20 +19,19 @@ class SingleApplyDropdown extends BaseSingleDropdown {
         });
         return fuse.search(value);
     }
+
     renderDropdown() {
         const countries = this.api.getCountries();
         if (this.state.dropdownVisible) {
             return (
                 <RDropdown options={ countries }
                   onClose={this.onClose}
-                  onOptionSelected={this.onOptionSelected}
+                  onSelectedOptions={this.onSelectedOptions}
                   onFilter={this.onFilter}
                   headerTitle={"Filter by country"}
                   filterEnabled={true}
                   filterPlaceholder={"Filter countries"}
-                  onApply= { (value, options) => {
-
-                  }}
+                  applyOptions = { true }
                   noOptionsFoundText={ "No country found. Sorry about that."}
                   onFilter={ (value, options) => {
                       const fuse = new Fuse(options, {

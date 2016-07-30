@@ -21,8 +21,8 @@ class SingleDropdown extends BaseSingleDropdown {
                 <RDropdown
                   options={ countries }
                   onClose={this.onClose}
-                  onOptionSelected={this.onOptionSelected}
-                  optionSelected={this.state.optionSelected}
+                  onSelectedOptions={this.onSelectedOptions}
+                  selectedOption={this.state.selectedOption}
                   headerTitle={"Filter by country"}
                   renderOption={(option) => {
                       return (
