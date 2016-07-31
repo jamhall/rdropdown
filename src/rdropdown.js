@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import ReactDOM  from 'react-dom';
 
 class RDropdown extends Component {
     static propTypes = {
@@ -49,6 +50,7 @@ class RDropdown extends Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.handleOptionSelected = this.handleOptionSelected.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
         this.handleApply = this.handleApply.bind(this);
         this.handleError = this.handleError.bind(this);
         this.handleError = this.handleError.bind(this);
@@ -64,6 +66,19 @@ class RDropdown extends Component {
         } else {
             this.setOptions(options);
         }
+        document.addEventListener('click', this.handleClickOutside, true);
+    }
+
+    componentWillUnmount() {
+      document.removeEventListener('click', this.handleClickOutside, true);
+    }
+
+
+    handleClickOutside(e) {
+      const domNode = ReactDOM.findDOMNode(this);
+      if(domNode && !domNode.contains(e.target)) {
+          this.props.onClose();
+      }
     }
 
     componentDidUpdate() {

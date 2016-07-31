@@ -9,31 +9,29 @@ class BaseSingleDropdown extends Component {
         this.onButtonClick = this.onButtonClick.bind(this);
         this.onSelectedOptions = this.onSelectedOptions.bind(this);
         this.onClose = this.onClose.bind(this);
-
         this.state = {
-            dropdownVisible: false,
+            isOpen: false,
             selectedOptions: null
         }
-
     }
 
     onSelectedOptions(options) {
         console.log('Options', options);
         this.setState({
-            dropdownVisible: !this.state.dropdownVisible,
+            isOpen: !this.state.isOpen,
             selectedOptions: options
         });
     }
 
     onClose() {
         this.setState({
-            dropdownVisible: !this.state.dropdownVisible
+            isOpen: !this.state.isOpen
         });
     }
 
     onButtonClick() {
         this.setState({
-            dropdownVisible: !this.state.dropdownVisible
+            isOpen: !this.state.isOpen
         });
     }
 

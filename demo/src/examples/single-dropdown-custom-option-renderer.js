@@ -16,7 +16,7 @@ class SingleDropdownCustomOptionRenderer extends BaseSingleDropdown {
     renderDropdown() {
         // Get an array of countries
         const countries = this.api.getCountries();
-        if (this.state.dropdownVisible) {
+        if (this.state.isOpen) {
             return (
                 <RDropdown
                   options={ countries }

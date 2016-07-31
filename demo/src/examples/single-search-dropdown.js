@@ -25,7 +25,7 @@ class SingleSearchDropdown extends BaseSingleDropdown {
 
     renderDropdown() {
         const countries = this.api.getCountries();
-        if (this.state.dropdownVisible) {
+        if (this.state.isOpen) {
             return (
                 <RDropdown
                   options={ countries }

@@ -13,7 +13,7 @@ class SingleAsyncDropdown extends BaseSingleDropdown {
     renderDropdown() {
         // Get an array of countries via a promise...
         const countries = this.api.getCountriesPromise();
-        if (this.state.dropdownVisible) {
+        if (this.state.isOpen) {
             return (
                 <RDropdown options={ countries }
                   onClose={this.onClose}

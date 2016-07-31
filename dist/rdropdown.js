@@ -57,6 +57,10 @@ var RDropdown =
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(2);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -90,6 +94,7 @@ var RDropdown =
 	        _this.handleSearch = _this.handleSearch.bind(_this);
 	        _this.handleOptionSelected = _this.handleOptionSelected.bind(_this);
 	        _this.handleKeyDown = _this.handleKeyDown.bind(_this);
+	        _this.handleClickOutside = _this.handleClickOutside.bind(_this);
 	        _this.handleApply = _this.handleApply.bind(_this);
 	        _this.handleError = _this.handleError.bind(_this);
 	        _this.handleError = _this.handleError.bind(_this);
@@ -107,6 +112,20 @@ var RDropdown =
 	                options.then(this.setOptions).catch(this.handleError);
 	            } else {
 	                this.setOptions(options);
+	            }
+	            document.addEventListener('click', this.handleClickOutside, true);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            document.removeEventListener('click', this.handleClickOutside, true);
+	        }
+	    }, {
+	        key: 'handleClickOutside',
+	        value: function handleClickOutside(e) {
+	            var domNode = _reactDom2.default.findDOMNode(this);
+	            if (domNode && !domNode.contains(e.target)) {
+	                this.props.onClose();
 	            }
 	        }
 	    }, {
@@ -594,6 +613,12 @@ var RDropdown =
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	module.exports = undefined;
+
+/***/ },
+/* 2 */
 /***/ function(module, exports) {
 
 	module.exports = undefined;
