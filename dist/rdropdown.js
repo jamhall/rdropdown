@@ -343,6 +343,7 @@ var RDropdown =
 	            var _this4 = this;
 
 	            var applyOptions = this.props.applyOptions;
+	            // move this out into a separate function...
 
 	            var index = this.getIndexForPreselectedOption(option);
 	            if (index) {
