@@ -43,7 +43,7 @@ Please look at the example source code in the demo folder for a good example of 
 | `enableEsc` | Bool | No | Allow the user to press ESC to close the menu (default: true) |
 | `errorText` | String | No | String to be displayed to the user when an error occurs (default: 'An error occurred') |
 | `height` | Number | No | The maximum height of the dropdown list (default: 300) |
-| `multiple` | Number | No |  Allow multiple selected options (default: false)) |
+| `multiple` | Bool | No |  Allow multiple selected options (default: false)) |
 | `applyOptions` | Bool | No | Make the use manually apply the options selected (default: false)) |
 | `applyOptionsText` | String | No |The text to be displayed for the apply button (default: 'Apply' )) |
 

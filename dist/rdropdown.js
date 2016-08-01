@@ -63,8 +63,6 @@ var RDropdown =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -221,7 +219,7 @@ var RDropdown =
 	                    return index;
 	                }
 	            }
-	            return null;
+	            return -1;
 	        }
 	    }, {
 	        key: 'setSearchValue',
@@ -330,13 +328,10 @@ var RDropdown =
 	    }, {
 	        key: 'addPreselectedOption',
 	        value: function addPreselectedOption(option) {
-	            var multiple = this.props.multiple;
 	            // if multiple is not set then only one option can be selected...
-
-	            if (this.getPreselectedOptions().length > 0 && !this.multiple) {
+	            if (this.getPreselectedOptions().length > 0 && !this.isMultiple()) {
 	                this.resetPreselectedOptions();
 	            }
-
 	            if (!this.isSelectedOption(option)) {
 	                this.setState(function (state) {
 	                    return {
@@ -365,7 +360,7 @@ var RDropdown =
 	            // move this out into a separate function...
 
 	            var index = this.getIndexForPreselectedOption(option);
-	            if (index) {
+	            if (index > -1) {
 	                this.removePreselectedOption(option);
 	            } else {
 	                this.addPreselectedOption(option);
@@ -427,7 +422,7 @@ var RDropdown =
 	        value: function renderApply() {
 	            var _props = this.props;
 	            var applyOptions = _props.applyOptions;
-	            var applyText = _props.applyText;
+	            var applyOptionsText = _props.applyOptionsText;
 	            var isLoading = this.state.isLoading;
 
 	            if (!isLoading && applyOptions) {
@@ -437,7 +432,7 @@ var RDropdown =
 	                    _react2.default.createElement(
 	                        'button',
 	                        { onClick: this.handleApply, className: 'dropdown-menu-apply-btn' },
-	                        applyText
+	                        applyOptionsText
 	                    )
 	                );
 	            }
@@ -483,6 +478,11 @@ var RDropdown =
 	        value: function renderOptions() {
 	            var _this5 = this;
 
+	            var height = this.props.height;
+
+	            var styles = {
+	                maxHeight: this.props.height
+	            };
 	            var options = this.getOptions();
 	            if (options.length === 0) {
 	                return _react2.default.createElement(
@@ -503,7 +503,7 @@ var RDropdown =
 	            });
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'dropdown-menu-list', ref: 'list' },
+	                { style: styles, className: 'dropdown-menu-list', ref: 'list' },
 	                renderedOptions
 	            );
 	        }
@@ -595,20 +595,22 @@ var RDropdown =
 	    enableEsc: _react.PropTypes.bool,
 	    errorText: _react.PropTypes.string,
 	    applyOptions: _react.PropTypes.bool,
-	    applyText: _react.PropTypes.string
+	    applyOptionsText: _react.PropTypes.string,
+	    height: _react.PropTypes.number
 	};
-	RDropdown.defaultProps = _defineProperty({
+	RDropdown.defaultProps = {
 	    searchable: false,
 	    searchPlaceholder: 'Search...',
 	    noResultsText: 'No results',
 	    enableEsc: true,
 	    errorText: 'An error occurred.',
-	    applyText: 'Apply',
+	    applyOptionsText: 'Apply',
 	    applyOptions: false,
 	    selectedOptions: null,
 	    multiple: false,
-	    title: 'Filter'
-	}, 'multiple', false);
+	    title: 'Filter',
+	    height: 300
+	};
 	exports.default = RDropdown;
 
 /***/ },
