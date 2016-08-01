@@ -7,6 +7,7 @@ var options = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         library: 'RDropdown',
+        libraryTarget: 'umd',
         filename: 'rdropdown.js'
     },
     module: {

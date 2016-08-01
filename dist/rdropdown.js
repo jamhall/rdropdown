@@ -1,5 +1,14 @@
-var RDropdown =
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("react"), require("react-dom"));
+	else if(typeof define === 'function' && define.amd)
+		define(["react", "react-dom"], factory);
+	else if(typeof exports === 'object')
+		exports["RDropdown"] = factory(require("react"), require("react-dom"));
+	else
+		root["RDropdown"] = factory(root["React"], root["ReactDOM"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__) {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -617,13 +626,15 @@ var RDropdown =
 /* 1 */
 /***/ function(module, exports) {
 
-	module.exports = undefined;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
 /***/ },
 /* 2 */
 /***/ function(module, exports) {
 
-	module.exports = undefined;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ }
-/******/ ]);
+/******/ ])
+});
+;
