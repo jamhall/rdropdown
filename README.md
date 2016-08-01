@@ -28,7 +28,7 @@ import 'rdropdown/dist/rdropdown.css';
 
 ### Example usage
 
-Please look at the example source code in the demo folder for a good example of how to use the component: https://github.com/jamhall/rdropdown/tree/master/demo/src
+Please look at the example source code in the demo folder for a good example of how to use the component: https://github.com/jamhall/rdropdown/tree/master/demo
 
 ### Properties
 

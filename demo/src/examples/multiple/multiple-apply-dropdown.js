@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-
-import RDropdown from '../../../src/rdropdown';
+import RDropdown from '../../../../src/rdropdown';
+import BaseMultipleDropdown from './base-multiple-dropdown';
 import Fuse from 'fuse.js';
-import BaseSingleDropdown from './base-single-dropdown';
-class SingleApplyDropdown extends BaseSingleDropdown {
+
+class MultipleApplyDropdown extends BaseMultipleDropdown {
+
     constructor(props) {
         super(props);
     }
 
     /**
-     * Perform a fuzzy search on the options. Return all matched options.
      * NB: The matched options must have exactly the same structure as the original options
      */
      onSearch(input, options) {
@@ -20,31 +20,32 @@ class SingleApplyDropdown extends BaseSingleDropdown {
          return fuse.search(input);
      }
 
+
     renderDropdown() {
+        // Get an array of countries
         const countries = this.api.getCountries();
         if (this.state.isOpen) {
             return (
-                <RDropdown options={ countries }
+                <RDropdown
+                  options={ countries }
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
                   selectedOptions={this.state.selectedOptions}
-                  onSearch={this.onSearch}
-                  applyOptions = { true }
-                  title={"Countries"}
+                  applyOptions={true}
+                  title={"Filter by countries"}
+                  multiple={true}
                   searchable={true}
-                  searchPlaceholder={"Search countries"}
-                  noResultsText={ "No country found. Sorry about that."}
+                  onSearch={this.onSearch}
                   renderOption={(option) => {
                       return (
                           <div>
-                             {option.name}
+                              <img className="dropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
                           </div>
                       );
-                  }}/>
+                }}/>
             );
         }
     }
-
 }
 
-export default SingleApplyDropdown;
+export default MultipleApplyDropdown;

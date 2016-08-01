@@ -16,7 +16,8 @@ class RDropdown extends Component {
         enableEsc: PropTypes.bool,
         errorText: PropTypes.string,
         applyOptions: PropTypes.bool,
-        applyText: PropTypes.string
+        applyText: PropTypes.string,
+        height: PropTypes.number
     }
 
     static defaultProps = {
@@ -30,7 +31,7 @@ class RDropdown extends Component {
         selectedOptions: null,
         multiple: false,
         title: 'Filter',
-        multiple: false
+        height: 300
     }
 
     constructor(props) {
@@ -150,7 +151,7 @@ class RDropdown extends Component {
                 return index;
             }
         }
-        return null;
+        return -1;
     }
 
     setSearchValue(value) {
@@ -245,12 +246,10 @@ class RDropdown extends Component {
     }
 
     addPreselectedOption(option) {
-        const {multiple} = this.props;
         // if multiple is not set then only one option can be selected...
-        if(this.getPreselectedOptions().length > 0 && !this.multiple ) {
+        if(this.getPreselectedOptions().length > 0 && !this.isMultiple() ) {
             this.resetPreselectedOptions();
         }
-
         if(!this.isSelectedOption(option)) {
             this.setState((state) => ({
                 preselectedOptions: state.preselectedOptions.concat(option)
@@ -268,7 +267,7 @@ class RDropdown extends Component {
         const {applyOptions} = this.props;
         // move this out into a separate function...
         const index = this.getIndexForPreselectedOption(option);
-        if(index) {
+        if(index > -1) {
             this.removePreselectedOption(option);
         } else {
             this.addPreselectedOption(option);
@@ -366,6 +365,10 @@ class RDropdown extends Component {
     }
 
     renderOptions() {
+        const {height} = this.props;
+        const styles = {
+          maxHeight: this.props.height
+        }
         const options = this.getOptions();
         if (options.length === 0) {
             return (
@@ -383,7 +386,7 @@ class RDropdown extends Component {
             )
         });
         return (
-            <div className="dropdown-menu-list" ref="list">
+            <div style={ styles  } className="dropdown-menu-list" ref="list">
                 {renderedOptions}
             </div>
         );

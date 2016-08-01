@@ -1,13 +1,8 @@
-
 import React, {Component} from 'react';
-
-import RDropdown from '../../../src/rdropdown';
+import RDropdown from '../../../../src/rdropdown';
 import BaseSingleDropdown from './base-single-dropdown';
 
-/**
- * Extend the base single dropdown as the examples share common functionality...
- */
-class SingleDropdownCustomOptionRenderer extends BaseSingleDropdown {
+class SingleDropdown extends BaseSingleDropdown {
 
     constructor(props) {
         super(props);
@@ -23,11 +18,10 @@ class SingleDropdownCustomOptionRenderer extends BaseSingleDropdown {
                   onClose={this.onClose}
                   onSelectedOptions={this.onSelectedOptions}
                   selectedOptions={this.state.selectedOptions}
-                  title = { "Countries" }
                   renderOption={(option) => {
                       return (
                           <div>
-                              <img className="dropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
+                             {option.name}
                           </div>
                       );
                 }}/>
@@ -36,4 +30,4 @@ class SingleDropdownCustomOptionRenderer extends BaseSingleDropdown {
     }
 }
 
-export default SingleDropdownCustomOptionRenderer;
+export default SingleDropdown;

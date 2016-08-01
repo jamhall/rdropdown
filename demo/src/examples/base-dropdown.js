@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import RDropdown from '../../../src/rdropdown';
 import Api from '../api';
 
-class BaseSingleDropdown extends Component {
+class BaseDropdown extends Component {
     constructor(props) {
         super(props);
         this.api = new Api();
@@ -35,16 +35,6 @@ class BaseSingleDropdown extends Component {
         });
     }
 
-    renderSelectedOption() {
-      const options = this.state.selectedOptions;
-      if(options) {
-         const optionsJoined = Array.isArray(options) ?  options.map(x => x.name).join(',') : options.name;
-        return (<div className="result"><b>Country: </b>{ optionsJoined }</div>)
-      }
-      return <div className="result"><b>Country: </b>No country has been selected</div>
-    }
-
-
     getFlagImageSource(option) {
         return "flags/" + option.code.toLowerCase() + ".png";
     }
@@ -52,7 +42,7 @@ class BaseSingleDropdown extends Component {
     render() {
         return (
             <div className="example-container">
-                { this.renderSelectedOption() }
+                { this.renderSelectedOptions() }
                 <button className="pure-button button-success" onClick={this.onButtonClick}>Select a country</button>
                 {this.renderDropdown()}
             </div>
@@ -60,4 +50,4 @@ class BaseSingleDropdown extends Component {
     }
 }
 
-export default BaseSingleDropdown;
+export default BaseDropdown;

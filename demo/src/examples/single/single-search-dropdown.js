@@ -1,18 +1,14 @@
 import React, {Component} from 'react';
-import RDropdown from '../../../src/rdropdown';
+import RDropdown from '../../../../src/rdropdown';
 import Fuse from 'fuse.js';
 import BaseSingleDropdown from './base-single-dropdown';
 
-/**
- * Extend the base single dropdown as the examples share common functionality...
- */
 class SingleSearchDropdown extends BaseSingleDropdown {
     constructor(props) {
         super(props);
     }
 
     /**
-     * Perform a search on the options. Return all matched options.
      * NB: The matched options must have exactly the same structure as the original options
      */
      onSearch(input, options) {

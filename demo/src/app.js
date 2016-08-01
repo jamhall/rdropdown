@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import SingleDropdown from './examples/single-dropdown';
-import SingleAsyncDropdown from './examples/single-async-dropdown';
-import SingleSearchDropdown from './examples/single-search-dropdown';
-import SingleApplyDropdown from './examples/single-apply-dropdown';
-import SingleDropdownCustomOptionRenderer from './examples/single-dropdown-custom-option-renderer';
+import SingleDropdown from './examples/single/single-dropdown';
+import SingleAsyncDropdown from './examples/single/single-async-dropdown';
+import SingleSearchDropdown from './examples/single/single-search-dropdown';
+import SingleApplyDropdown from './examples/single/single-apply-dropdown';
+import SingleCustomOptionRendererDropdown from './examples/single/single-custom-option-renderer-dropdown';
+import MultipleDropdown from './examples/multiple/multiple-dropdown';
+import MultipleApplyDropdown from './examples/multiple/multiple-apply-dropdown';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import '../resources/css/styles.css';
@@ -41,50 +43,64 @@ class App extends Component {
                             <div className="example">
                                 <h2>Countries</h2>
                                 <div className="info">
-                                    This is the simplest example using all of the default options. <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-dropdown.js">Source</a>
+                                    This is the simplest example using all of the default options. <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-dropdown.js">Source</a>
                                 </div>
                                 <SingleDropdown />
                             </div>
                             <div className="example">
                                 <h2>Countries (async)</h2>
                                 <div className="info">
-                                    You can load options asynchronously by passing a promise instead of an array of options. <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-async-dropdown.js">Source</a>
+                                    You can load options asynchronously by passing a promise instead of an array of options. <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-async-dropdown.js">Source</a>
                                 </div>
                                 <SingleAsyncDropdown />
                             </div>
                             <div className="example">
                                 <h2>Countries (search)</h2>
-                                <p>You can also filter options by setting a couple of options. <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-search-dropdown.js">Source</a></p>
+                                <div className="info">
+                                  You can also filter options by setting a couple of options. <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-search-dropdown.js">Source</a>
+                                </div>
                                 <SingleSearchDropdown />
                                 <div className="info">
-                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-search-dropdown.js">Source</a>
+                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-search-dropdown.js">Source</a>
                                 </div>
                             </div>
                             <div className="example">
                                 <h2>Countries (custom option renderer)</h2>
-                                <SingleDropdownCustomOptionRenderer />
+                                <SingleCustomOptionRendererDropdown />
                                 <div className="info">
-                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-dropdown-custom-option-renderer.js">Source</a>
+                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-custom-option-renderer-dropdown.js">Source</a>
                                 </div>
                             </div>
                             <div className="example">
-                                <h2>Countries (apply selected options)</h2>
+                                <h2>Countries (apply selected option)</h2>
                                 <SingleApplyDropdown />
                                 <div className="info">
-                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single-apply-dropdown.js">Source</a>
+                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-apply-dropdown.js">Source</a>
                                 </div>
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            <p>Coming soon</p>
+                            <div className="example">
+                              <h2>Countries</h2>
+                              <MultipleDropdown />
+                              <div className="info">
+                                  <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/multiple/multiple-dropdown.js">Source</a>
+                              </div>
+                            </div>
+                            <div className="example">
+                              <h2>Countries (apply selected options)</h2>
+                              <MultipleApplyDropdown />
+                              <div className="info">
+                                  <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/multiple/multiple-apply-dropdown.js">Source</a>
+                              </div>
+                            </div>
                         </TabPanel>
                         </Tabs>
-
                     </div>
                 </div>
                 <footer className="footer">
                     <div className="container">
-                        <p>Copyright © <a href="https://github.com/jamhall">Jamie Hall</a>. RDropdown is available under the MIT license.</p>
+                        <p>Copyright © 2016 <a href="https://github.com/jamhall">Jamie Hall</a>. RDropdown is available under the MIT license.</p>
                     </div>
                 </footer>
             </div>
