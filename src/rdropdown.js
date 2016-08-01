@@ -16,7 +16,7 @@ class RDropdown extends Component {
         enableEsc: PropTypes.bool,
         errorText: PropTypes.string,
         applyOptions: PropTypes.bool,
-        applyText: PropTypes.string,
+        applyOptionsText: PropTypes.string,
         height: PropTypes.number
     }
 
@@ -26,7 +26,7 @@ class RDropdown extends Component {
         noResultsText: 'No results',
         enableEsc: true,
         errorText: 'An error occurred.',
-        applyText: 'Apply',
+        applyOptionsText: 'Apply',
         applyOptions: false,
         selectedOptions: null,
         multiple: false,
@@ -322,13 +322,13 @@ class RDropdown extends Component {
     }
 
     renderApply() {
-        const {applyOptions, applyText} = this.props;
+        const {applyOptions, applyOptionsText} = this.props;
         const {isLoading } = this.state;
         if(!isLoading && applyOptions) {
             return(
                 <div className="dropdown-menu-apply">
                     <button onClick={this.handleApply} className="dropdown-menu-apply-btn">
-                        { applyText }
+                        { applyOptionsText }
                     </button>
                 </div>
             )

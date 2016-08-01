@@ -32,6 +32,7 @@ class MultipleApplyDropdown extends BaseMultipleDropdown {
                   onSelectedOptions={this.onSelectedOptions}
                   selectedOptions={this.state.selectedOptions}
                   applyOptions={true}
+                  applyOptionsText={"Apply selection"}
                   title={"Filter by countries"}
                   multiple={true}
                   searchable={true}
