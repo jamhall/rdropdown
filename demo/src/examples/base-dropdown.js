@@ -16,7 +16,6 @@ class BaseDropdown extends Component {
     }
 
     onSelectedOptions(options) {
-        console.log('Options', options);
         this.setState({
             isOpen: !this.state.isOpen,
             selectedOptions: options

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM  from 'react-dom';
+import _ from './lib/lodash.custom';
 
 class RDropdown extends Component {
     static propTypes = {
@@ -135,7 +136,7 @@ class RDropdown extends Component {
     getIndexForOption(option) {
         const options = this.getOptions();
         if(options) {
-            const index = options.findIndex(x => x === option);
+             const index = _.findIndex(options, option);
             if(index > -1) {
                 return index;
             }
@@ -146,7 +147,7 @@ class RDropdown extends Component {
     getIndexForPreselectedOption(option) {
         const options = this.getPreselectedOptions();
         if(options) {
-            const index = options.findIndex(x => x === option);
+            const index = _.findIndex(options, option);
             if(index > -1) {
                 return index;
             }
@@ -337,7 +338,7 @@ class RDropdown extends Component {
 
     isSelectedOption(option) {
         const {preselectedOptions} = this.state;
-        if(preselectedOptions.find((x) => x === option)) {
+        if(_.find(preselectedOptions, option)) {
             return true;
         }
         return false;
@@ -352,16 +353,15 @@ class RDropdown extends Component {
     }
 
     buildClassNamesForOption(option) {
-        const selectedClasses =  "dropdown-menu-list-item dropdown-menu-list-option-selected";
-        const normalClass = "dropdown-menu-list-item";
-        const focusedClasses = "dropdown-menu-list-item dropdown-menu-list-option-focused";
-        let classNames = normalClass;
+        const selectedClasses =  "dropdown-menu-list-option dropdown-menu-list-option-selected";
+        const normalClass = "dropdown-menu-list-option";
+        const focusedClasses = "dropdown-menu-list-option dropdown-menu-list-option-focused";
         if(this.isSelectedOption(option)) {
-            classNames = selectedClasses;
+            return selectedClasses;
         } else if(this.isFocusedOption(option) && !this.isSelectedOption(option)) {
-            classNames = focusedClasses;
+            return focusedClasses;
         }
-        return classNames;
+        return normalClass;
     }
 
     renderOptions() {

@@ -7,7 +7,6 @@ import SingleCustomOptionRendererDropdown from './examples/single/single-custom-
 import MultipleDropdown from './examples/multiple/multiple-dropdown';
 import MultipleApplyDropdown from './examples/multiple/multiple-apply-dropdown';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-
 import '../resources/css/styles.css';
 import '../resources/css/buttons.css';
 import '../../src/rdropdown.css';
