@@ -9,7 +9,6 @@ class SingleApplyDropdown extends BaseSingleDropdown {
     }
 
     /**
-     * Perform a fuzzy search on the options. Return all matched options.
      * NB: The matched options must have exactly the same structure as the original options
      */
      onSearch(input, options) {

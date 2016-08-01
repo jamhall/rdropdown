@@ -48,6 +48,13 @@ class App extends Component {
                                 <SingleDropdown />
                             </div>
                             <div className="example">
+                                <h2>Countries (custom option renderer)</h2>
+                                <SingleCustomOptionRendererDropdown />
+                                <div className="info">
+                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-custom-option-renderer-dropdown.js">Source</a>
+                                </div>
+                            </div>
+                            <div className="example">
                                 <h2>Countries (async)</h2>
                                 <div className="info">
                                     You can load options asynchronously by passing a promise instead of an array of options. <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-async-dropdown.js">Source</a>
@@ -62,13 +69,6 @@ class App extends Component {
                                 <SingleSearchDropdown />
                                 <div className="info">
                                     <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-search-dropdown.js">Source</a>
-                                </div>
-                            </div>
-                            <div className="example">
-                                <h2>Countries (custom option renderer)</h2>
-                                <SingleCustomOptionRendererDropdown />
-                                <div className="info">
-                                    <a href="https://github.com/jamhall/rdropdown/blob/master/demo/src/examples/single/single-custom-option-renderer-dropdown.js">Source</a>
                                 </div>
                             </div>
                             <div className="example">
