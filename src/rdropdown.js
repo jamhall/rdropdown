@@ -94,7 +94,7 @@ class RDropdown extends Component {
     }
 
     setFilteredOptions(options) {
-        this.setState({filteredOptions: options})
+        this.setState({filteredOptions: options, isLoading: false})
     }
 
     getOptions() {
@@ -207,17 +207,35 @@ class RDropdown extends Component {
     }
 
     handleSearch(event) {
+        //Only starts searching after user has stopped typing
+        if (this.searchTimer) {
+          clearTimeout(this.searchTimer);
+        }
+
         const value = event.target.value;
         this.setSearchValue(value);
-        if (value) {
-            const options = this.state.options;
-            const filteredOptions = this.props.onSearch(value, options);
-            this.setFilteredOptions(filteredOptions);
-            this.setFocusedOption(0, filteredOptions);
-            return;
-        }
-        this.setFilteredOptions(null);
-        this.setFocusedOption(0, this.state.options);
+
+        this.searchTimer = setTimeout(() => {
+          this.searchTimer = null;
+
+          if (value) {
+              const options = this.state.options;
+              const filteredOptions = this.props.onSearch(value, options);
+
+              if ('function' === typeof filteredOptions.then) {
+                this.setState({isLoading: true});
+                filteredOptions.then(o => this.setFilteredOptions).catch(this.handleError);
+              } 
+              else {
+                this.setFilteredOptions(filteredOptions);
+              }              
+              this.setFocusedOption(0, filteredOptions);
+
+              return;
+          }
+          this.setFilteredOptions(null);
+          this.setFocusedOption(0, this.state.options);
+        }, 500);
     }
 
     isMultiple() {
