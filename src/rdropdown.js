@@ -224,12 +224,12 @@ class RDropdown extends Component {
 
               if ('function' === typeof filteredOptions.then) {
                 this.setState({isLoading: true});
-                filteredOptions.then(o => this.setFilteredOptions).catch(this.handleError);
+                filteredOptions.then(this.setFilteredOptions.bind(this)).catch(this.handleError);
               } 
               else {
                 this.setFilteredOptions(filteredOptions);
+                this.setFocusedOption(0, filteredOptions);
               }              
-              this.setFocusedOption(0, filteredOptions);
 
               return;
           }
@@ -335,7 +335,7 @@ class RDropdown extends Component {
         if (searchable) {
             return (
                 <div className="dropdown-menu-filter">
-                    <input autoFocus={true} ref="searchInput" type="text" onChange={this.handleSearch} value={this.state.searchValue || ''} placeholder={this.props.searchPlaceholder}/>
+                    <input autoFocus={true} ref="searchInput" type="search" onChange={this.handleSearch} value={this.state.searchValue || ''} placeholder={this.props.searchPlaceholder}/>
                 </div>
             );
         }

@@ -159,7 +159,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'setFilteredOptions',
 	        value: function setFilteredOptions(options) {
-	            this.setState({ filteredOptions: options });
+	            this.setState({ filteredOptions: options, isLoading: false });
 	        }
 	    }, {
 	        key: 'getOptions',
@@ -294,17 +294,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'handleSearch',
 	        value: function handleSearch(event) {
+	            var _this4 = this;
+
+	            //Only starts searching after user has stopped typing
+	            if (this.searchTimer) {
+	                clearTimeout(this.searchTimer);
+	            }
+
 	            var value = event.target.value;
 	            this.setSearchValue(value);
-	            if (value) {
-	                var options = this.state.options;
-	                var filteredOptions = this.props.onSearch(value, options);
-	                this.setFilteredOptions(filteredOptions);
-	                this.setFocusedOption(0, filteredOptions);
-	                return;
-	            }
-	            this.setFilteredOptions(null);
-	            this.setFocusedOption(0, this.state.options);
+
+	            this.searchTimer = setTimeout(function () {
+	                _this4.searchTimer = null;
+
+	                if (value) {
+	                    var options = _this4.state.options;
+	                    var filteredOptions = _this4.props.onSearch(value, options);
+
+	                    if ('function' === typeof filteredOptions.then) {
+	                        _this4.setState({ isLoading: true });
+	                        filteredOptions.then(_this4.setFilteredOptions.bind(_this4)).catch(_this4.handleError);
+	                    } else {
+	                        _this4.setFilteredOptions(filteredOptions);
+	                        _this4.setFocusedOption(0, filteredOptions);
+	                    }
+
+	                    return;
+	                }
+	                _this4.setFilteredOptions(null);
+	                _this4.setFocusedOption(0, _this4.state.options);
+	            }, 500);
 	        }
 	    }, {
 	        key: 'isMultiple',
@@ -367,7 +386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'handleOptionSelected',
 	        value: function handleOptionSelected(option) {
-	            var _this4 = this;
+	            var _this5 = this;
 
 	            var applyOptions = this.props.applyOptions;
 	            // move this out into a separate function...
@@ -380,7 +399,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            if (!applyOptions) {
 	                this.setState({}, function () {
-	                    _this4.props.onSelectedOptions(_this4.getSelectedOptions());
+	                    _this5.props.onSelectedOptions(_this5.getSelectedOptions());
 	                });
 	            }
 	        }
@@ -426,7 +445,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'dropdown-menu-filter' },
-	                    _react2.default.createElement('input', { autoFocus: true, ref: 'searchInput', type: 'text', onChange: this.handleSearch, value: this.state.searchValue || '', placeholder: this.props.searchPlaceholder })
+	                    _react2.default.createElement('input', { autoFocus: true, ref: 'searchInput', type: 'search', onChange: this.handleSearch, value: this.state.searchValue || '', placeholder: this.props.searchPlaceholder })
 	                );
 	            }
 	        }
@@ -486,7 +505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'renderOptions',
 	        value: function renderOptions() {
-	            var _this5 = this;
+	            var _this6 = this;
 
 	            var height = this.props.height;
 
@@ -505,10 +524,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return _react2.default.createElement(
 	                    'a',
 	                    { key: index,
-	                        className: _this5.buildClassNamesForOption(option),
+	                        className: _this6.buildClassNamesForOption(option),
 	                        ref: 'option_' + index,
-	                        onClick: _this5.handleOptionSelected.bind(_this5, option) },
-	                    _this5.props.renderOption(option)
+	                        onClick: _this6.handleOptionSelected.bind(_this6, option) },
+	                    _this6.props.renderOption(option)
 	                );
 	            });
 	            return _react2.default.createElement(
