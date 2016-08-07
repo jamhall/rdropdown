@@ -2399,7 +2399,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _react2.default.createElement(
 	        'span',
 	        _extends({}, this.props, { ref: 'me' }),
-	        ' '
+	        _react2.default.createElement('span', null)
 	      );
 	    }
 	  }]);

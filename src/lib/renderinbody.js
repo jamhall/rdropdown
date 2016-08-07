@@ -33,7 +33,7 @@ export default class RenderInBody extends Component
   }
 
   render() {
-    return <span {...this.props} ref="me">&nbsp;</span>;
+    return <span {...this.props} ref="me"><span /></span>;
   }
 
 }
