@@ -1,3 +1,5 @@
+var Promise = require('es6-promise').Promise;
+
 class Api {
     constructor() {
         this.countries = [

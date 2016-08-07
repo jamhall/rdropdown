@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM  from 'react-dom';
 import _ from './lib/lodash.custom';
+import RenderInBody from './lib/renderinbody';
 
 class RDropdown extends Component {
     static propTypes = {
@@ -77,7 +78,7 @@ class RDropdown extends Component {
 
 
     handleClickOutside(e) {
-      const domNode = ReactDOM.findDOMNode(this);
+      const domNode = this.refs.dropdownMenu;
       if(domNode && !domNode.contains(e.target)) {
           this.props.onClose();
       }
@@ -429,14 +430,16 @@ class RDropdown extends Component {
     render() {
         const { title, onClose} = this.props;
         return (
-            <div tabIndex={0} className="dropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
-                <div className="dropdown-menu-header">
-                    <button className="dropdown-menu-close" onClick={onClose}>×</button>
-                    <span className="dropdown-menu-title">{title}</span>
-                </div>
-                {this.renderList()}
-                {this.renderApply()}
-            </div>
+            <RenderInBody>
+              <div tabIndex={0} className="rdropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
+                  <div className="dropdown-menu-header">
+                      <button className="dropdown-menu-close" onClick={onClose}>×</button>
+                      <span className="dropdown-menu-title">{title}</span>
+                  </div>
+                  {this.renderList()}
+                  {this.renderApply()}
+              </div>
+            </RenderInBody>
         );
     }
 }
