@@ -74,6 +74,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
+	var _renderinbody = __webpack_require__(6);
+
+	var _renderinbody2 = _interopRequireDefault(_renderinbody);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -134,7 +138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'handleClickOutside',
 	        value: function handleClickOutside(e) {
-	            var domNode = _reactDom2.default.findDOMNode(this);
+	            var domNode = this.refs.dropdownMenu;
 	            if (domNode && !domNode.contains(e.target)) {
 	                this.props.onClose();
 	            }
@@ -562,24 +566,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var onClose = _props2.onClose;
 
 	            return _react2.default.createElement(
-	                'div',
-	                { tabIndex: 0, className: 'dropdown-menu', ref: 'dropdownMenu', onKeyDown: this.handleKeyDown },
+	                _renderinbody2.default,
+	                null,
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'dropdown-menu-header' },
+	                    { tabIndex: 0, className: 'rdropdown-menu', ref: 'dropdownMenu', onKeyDown: this.handleKeyDown },
 	                    _react2.default.createElement(
-	                        'button',
-	                        { className: 'dropdown-menu-close', onClick: onClose },
-	                        '×'
+	                        'div',
+	                        { className: 'dropdown-menu-header' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { className: 'dropdown-menu-close', onClick: onClose },
+	                            '×'
+	                        ),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'dropdown-menu-title' },
+	                            title
+	                        )
 	                    ),
-	                    _react2.default.createElement(
-	                        'span',
-	                        { className: 'dropdown-menu-title' },
-	                        title
-	                    )
-	                ),
-	                this.renderList(),
-	                this.renderApply()
+	                    this.renderList(),
+	                    this.renderApply()
+	                )
 	            );
 	        }
 	    }]);
@@ -2294,6 +2302,93 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
 
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(2);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RenderInBody = function (_Component) {
+	  _inherits(RenderInBody, _Component);
+
+	  function RenderInBody() {
+	    _classCallCheck(this, RenderInBody);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(RenderInBody).apply(this, arguments));
+	  }
+
+	  _createClass(RenderInBody, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var me = this.refs.me,
+	          rect = me.parentNode.getBoundingClientRect(),
+	          scrollTop = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop,
+	          scrollLeft = document.documentElement && document.documentElement.scrollLeft || document.body.scrollLeft;
+
+	      this.popup = document.createElement('div');
+	      this.popup.style.position = 'absolute';
+	      this.popup.style.left = scrollLeft + rect.left + 'px';
+	      this.popup.style.top = scrollTop + rect.top + rect.height + 'px';
+
+	      document.body.appendChild(this.popup);
+	      this._renderLayer();
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this._renderLayer();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _reactDom2.default.unmountComponentAtNode(this.popup);
+	      document.body.removeChild(this.popup);
+	    }
+	  }, {
+	    key: '_renderLayer',
+	    value: function _renderLayer() {
+	      _reactDom2.default.render(this.props.children, this.popup);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'span',
+	        _extends({}, this.props, { ref: 'me' }),
+	        ' '
+	      );
+	    }
+	  }]);
+
+	  return RenderInBody;
+	}(_react.Component);
+
+	exports.default = RenderInBody;
 
 /***/ }
 /******/ ])
