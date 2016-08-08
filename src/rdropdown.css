@@ -13,22 +13,22 @@
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
     outline: none;
 }
-.rdropdown-menu .dropdown-menu-header {
+.rdropdown-menu .rdropdown-menu-header {
     padding: 8px 10px;
     line-height: 16px;
     background: #f5f5f5;
     border-bottom: 1px solid rgba(200, 200, 200, 0.4);
 }
-.rdropdown-menu .dropdown-menu-filters {
+.rdropdown-menu .rdropdown-menu-filters {
     background-color: #f8f8f8;
     box-sizing: border-box;
 }
-.dropdown-menu-filters .dropdown-menu-filter {
+.rdropdown-menu-filters .rdropdown-menu-filter {
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
     padding: 10px;
 }
-.dropdown-menu-filters .dropdown-menu-filter input {
+.rdropdown-menu-filters .rdropdown-menu-filter input {
     display: block;
     width: 100%;
     max-width: 100%;
@@ -45,12 +45,12 @@
     background-position: right 8px center;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
 }
-.rdropdown-menu .dropdown-menu-header .dropdown-menu-title {
+.rdropdown-menu .rdropdown-menu-header .rdropdown-menu-title {
     font-weight: 600;
     color: #333;
     text-shadow: 0 1px 0 #fff;
 }
-.rdropdown-menu .dropdown-menu-header .dropdown-menu-close {
+.rdropdown-menu .rdropdown-menu-header .rdropdown-menu-close {
     margin-top: -4px;
     float: right;
     font-size: 21px;
@@ -63,27 +63,27 @@
     background: 0 0;
     border: 0;
 }
-.rdropdown-menu .dropdown-menu-header .dropdown-menu-close:hover {
+.rdropdown-menu .rdropdown-menu-header .rdropdown-menu-close:hover {
     color: #555;
 }
-.rdropdown-menu .dropdown-menu-list {
+.rdropdown-menu .rdropdown-menu-list {
     position: relative;
     max-height: 300px;
     overflow: auto;
 }
-.rdropdown-menu .dropdown-menu-no-results {
+.rdropdown-menu .rdropdown-menu-no-results {
     padding: 9px;
     color: #767676;
     cursor: auto;
     background: #fff;
 }
-.rdropdown-menu .dropdown-menu-apply {
+.rdropdown-menu .rdropdown-menu-apply {
     padding: 9px;
     color: #767676;
     cursor: auto;
     background: #f8f8f8;
 }
-.rdropdown-menu .dropdown-menu-apply .dropdown-menu-apply-btn {
+.rdropdown-menu .rdropdown-menu-apply .rdropdown-menu-apply-btn {
     width: 100%;
     color: #fff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
@@ -102,18 +102,18 @@
     border-radius: 3px;
     border: 1px solid #5ca941;
 }
-.rdropdown-menu .dropdown-menu-loading {
+.rdropdown-menu .rdropdown-menu-loading {
     padding: 9px;
     /*height: 200px;*/
     cursor: auto;
     background: #fff;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid {
     width: 40px;
     height: 40px;
     margin: 50px auto;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner {
     width: 33%;
     height: 33%;
     background-color: #ddd;
@@ -121,39 +121,39 @@
     -webkit-animation: loading-spinnerGridScaleDelay 1.3s infinite ease-in-out;
     animation: loading-spinnerGridScaleDelay 1.3s infinite ease-in-out;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner1 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner1 {
     -webkit-animation-delay: 0.2s;
     animation-delay: 0.2s;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner2 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner2 {
     -webkit-animation-delay: 0.3s;
     animation-delay: 0.3s;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner3 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner3 {
     -webkit-animation-delay: 0.4s;
     animation-delay: 0.4s;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner4 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner4 {
     -webkit-animation-delay: 0.1s;
     animation-delay: 0.1s;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner5 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner5 {
     -webkit-animation-delay: 0.2s;
     animation-delay: 0.2s;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner6 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner6 {
     -webkit-animation-delay: 0.3s;
     animation-delay: 0.3s;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner7 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner7 {
     -webkit-animation-delay: 0s;
     animation-delay: 0s;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner8 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner8 {
     -webkit-animation-delay: 0.1s;
     animation-delay: 0.1s;
 }
-.rdropdown-menu .dropdown-menu-loading .loading-spinner-grid .loading-spinner9 {
+.rdropdown-menu .rdropdown-menu-loading .loading-spinner-grid .loading-spinner9 {
     -webkit-animation-delay: 0.2s;
     animation-delay: 0.2s;
 }
@@ -177,7 +177,7 @@
         transform: scale3D(0, 0, 1);
     }
 }
-.rdropdown-menu .dropdown-menu-list .dropdown-menu-list-option {
+.rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option {
     position: relative;
     text-align: left;
     background-color: #fff;
@@ -191,28 +191,28 @@
     cursor: pointer;
     border-bottom: 1px solid #eee;
 }
-.rdropdown-menu .dropdown-menu-list .dropdown-menu-list-option.dropdown-menu-list-option-selected {
+.rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option.rdropdown-menu-list-option-selected {
     font-weight: bold;
     color: #fff;
     background-color: #4078c0;
 }
-.rdropdown-menu .dropdown-menu-list .dropdown-menu-list-option.dropdown-menu-list-option-selected:hover {
+.rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option.rdropdown-menu-list-option-selected:hover {
     font-weight: bold;
     color: #fff;
     background-color: #4078c0;
 }
 
-.rdropdown-menu .dropdown-menu-list .dropdown-menu-list-option-icon {
+.rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option-icon {
     margin-right: 10px;
     height: 16px;
     vertical-align: middle;
     width: 16px;
 }
-.rdropdown-menu .dropdown-menu-list .dropdown-menu-list-option:hover {
+.rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option:hover {
     color: inherit;
     background-color: #f4f4f4;
 }
-.rdropdown-menu .dropdown-menu-list .dropdown-menu-list-option.dropdown-menu-list-option-focused {
+.rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option.rdropdown-menu-list-option-focused {
     text-decoration:none;
     color: inherit;
     background-color: #f4f4f4;

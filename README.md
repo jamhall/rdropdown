@@ -118,15 +118,16 @@ Name                | Type             | Required                  | Description
 `title`             | String           | No                        | The title of the dropdown (default: 'Filter')
 `searchable`        | Bool             | No                        | Activate or disactivate searching. (default:false)
 `searchPlaceholder` | No               | String                    | The search input box placeholder (default: Search)
+`searchTimeout` | No               | Number                    | When to start searching after the user stops typing (default: 200ms) |
 `noResultsText`     | String           | No                        | Text to be displayed when no options are found (default: 'No results')
-`onSearch`          | Function         | Yes if searchable enabled | Callback for when a user starts typing to search the list
+`onSearch`          | Function         | Yes if searchable enabled | Callback or a promise for when a user starts typing to search the list
 `onClose`           | Function         | Yes                       | Close the menu
 `enableEsc`         | Bool             | No                        | Allow the user to press ESC to close the menu (default: true)
 `errorText`         | String           | No                        | String to be displayed to the user when an error occurs (default: 'An error occurred')
 `height`            | Number           | No                        | The maximum height of the dropdown list (default: 300)
-`multiple`          | Bool             | No                        | Allow multiple selected options (default: false))
-`applyOptions`      | Bool             | No                        | Make the use manually apply the options selected (default: false))
-`applyOptionsText`  | String           | No                        | The text to be displayed for the apply button (default: 'Apply' ))
+`multiple`          | Bool             | No                        | Allow multiple selected options (default: false)
+`applyOptions`      | Bool             | No                        | Make the use manually apply the options selected (default: false)
+`applyOptionsText`  | String           | No                        | The text to be displayed for the apply button (default: 'Apply' ) |
 
 ## Running the examples
 

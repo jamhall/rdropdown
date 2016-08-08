@@ -22,7 +22,7 @@ class SingleCustomOptionRendererDropdown extends BaseSingleDropdown {
                   renderOption={(option) => {
                       return (
                           <div>
-                              <img className="dropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
+                              <img className="rdropdown-menu-list-option-icon" src={  this.getFlagImageSource (option) } /> {option.name}
                           </div>
                       );
                 }}/>

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM  from 'react-dom';
-import _ from './lib/lodash.custom';
 import RenderInBody from './lib/renderinbody';
+import {findIndexForOption, optionExists} from './lib/utils';
 
 class RDropdown extends Component {
     static propTypes = {
@@ -14,6 +14,7 @@ class RDropdown extends Component {
         title: PropTypes.string,
         searchable: PropTypes.bool,
         searchPlaceholder: PropTypes.string,
+        searchTimeout: PropTypes.number,
         noResultsText: PropTypes.string,
         enableEsc: PropTypes.bool,
         errorText: PropTypes.string,
@@ -33,7 +34,8 @@ class RDropdown extends Component {
         selectedOptions: null,
         multiple: false,
         title: 'Filter',
-        height: 300
+        height: 300,
+        searchTimeout: 200
     }
 
     constructor(props) {
@@ -73,15 +75,15 @@ class RDropdown extends Component {
     }
 
     componentWillUnmount() {
-      document.removeEventListener('click', this.handleClickOutside, true);
+        document.removeEventListener('click', this.handleClickOutside, true);
     }
 
 
     handleClickOutside(e) {
-      const domNode = this.refs.dropdownMenu;
-      if(domNode && !domNode.contains(e.target)) {
-          this.props.onClose();
-      }
+        const domNode = this.refs.dropdownMenu;
+        if(domNode && !domNode.contains(e.target)) {
+            this.props.onClose();
+        }
     }
 
     componentDidUpdate() {
@@ -137,7 +139,7 @@ class RDropdown extends Component {
     getIndexForOption(option) {
         const options = this.getOptions();
         if(options) {
-             const index = _.findIndex(options, option);
+             const index = findIndexForOption(options, option);
             if(index > -1) {
                 return index;
             }
@@ -148,7 +150,7 @@ class RDropdown extends Component {
     getIndexForPreselectedOption(option) {
         const options = this.getPreselectedOptions();
         if(options) {
-            const index = _.findIndex(options, option);
+            const index = findIndexForOption(options, option);
             if(index > -1) {
                 return index;
             }
@@ -225,17 +227,17 @@ class RDropdown extends Component {
               if ('function' === typeof filteredOptions.then) {
                 this.setState({isLoading: true});
                 filteredOptions.then(this.setFilteredOptions.bind(this)).catch(this.handleError);
-              } 
+              }
               else {
                 this.setFilteredOptions(filteredOptions);
                 this.setFocusedOption(0, filteredOptions);
-              }              
+              }
 
               return;
           }
           this.setFilteredOptions(null);
           this.setFocusedOption(0, this.state.options);
-        }, 500);
+        }, this.props.searchTimeout);
     }
 
     isMultiple() {
@@ -334,7 +336,7 @@ class RDropdown extends Component {
         const {searchable} = this.props;
         if (searchable) {
             return (
-                <div className="dropdown-menu-filter">
+                <div className="rdropdown-menu-filter">
                     <input autoFocus={true} ref="searchInput" type="search" onChange={this.handleSearch} value={this.state.searchValue || ''} placeholder={this.props.searchPlaceholder}/>
                 </div>
             );
@@ -346,8 +348,8 @@ class RDropdown extends Component {
         const {isLoading } = this.state;
         if(!isLoading && applyOptions) {
             return(
-                <div className="dropdown-menu-apply">
-                    <button onClick={this.handleApply} className="dropdown-menu-apply-btn">
+                <div className="rdropdown-menu-apply">
+                    <button onClick={this.handleApply} className="rdropdown-menu-apply-btn">
                         { applyOptionsText }
                     </button>
                 </div>
@@ -357,10 +359,7 @@ class RDropdown extends Component {
 
     isSelectedOption(option) {
         const {preselectedOptions} = this.state;
-        if(_.find(preselectedOptions, option)) {
-            return true;
-        }
-        return false;
+        return optionExists(preselectedOptions, option);
     }
 
     isFocusedOption(option) {
@@ -372,9 +371,9 @@ class RDropdown extends Component {
     }
 
     buildClassNamesForOption(option) {
-        const selectedClasses =  "dropdown-menu-list-option dropdown-menu-list-option-selected";
-        const normalClass = "dropdown-menu-list-option";
-        const focusedClasses = "dropdown-menu-list-option dropdown-menu-list-option-focused";
+        const selectedClasses =  "rdropdown-menu-list-option rdropdown-menu-list-option-selected";
+        const normalClass = "rdropdown-menu-list-option";
+        const focusedClasses = "rdropdown-menu-list-option rdropdown-menu-list-option-focused";
         if(this.isSelectedOption(option)) {
             return selectedClasses;
         } else if(this.isFocusedOption(option) && !this.isSelectedOption(option)) {
@@ -391,7 +390,7 @@ class RDropdown extends Component {
         const options = this.getOptions();
         if (options.length === 0) {
             return (
-                <div className="dropdown-menu-no-results">{this.props.noResultsText}</div>
+                <div className="rdropdown-menu-no-results">{this.props.noResultsText}</div>
             )
         }
         const renderedOptions = options.map((option, index) => {
@@ -405,7 +404,7 @@ class RDropdown extends Component {
             )
         });
         return (
-            <div style={ styles  } className="dropdown-menu-list" ref="list">
+            <div style={ styles  } className="rdropdown-menu-list" ref="list">
                 {renderedOptions}
             </div>
         );
@@ -417,12 +416,12 @@ class RDropdown extends Component {
         const {errorText} = this.props;
         if(errorOccurred) {
           return (
-              <div className="dropdown-menu-no-results">{ errorText }</div>
+              <div className="rdropdown-menu-no-results">{ errorText }</div>
           )
         }
         if (isLoading) {
             return (
-                <div className="dropdown-menu-loading">
+                <div className="rdropdown-menu-loading">
                     <div className="loading-spinner-grid">
                         <div className="loading-spinner loading-spinner1"></div>
                         <div className="loading-spinner loading-spinner2"></div>
@@ -438,7 +437,7 @@ class RDropdown extends Component {
             );
         }
         return (
-            <div className="dropdown-menu-filters">
+            <div className="rdropdown-menu-filters">
                 {this.renderSearch()}
                 {this.renderOptions()}
             </div>
@@ -450,9 +449,9 @@ class RDropdown extends Component {
         return (
             <RenderInBody>
               <div tabIndex={0} className="rdropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
-                  <div className="dropdown-menu-header">
-                      <button className="dropdown-menu-close" onClick={onClose}>×</button>
-                      <span className="dropdown-menu-title">{title}</span>
+                  <div className="rdropdown-menu-header">
+                      <button className="rdropdown-menu-close" onClick={onClose}>×</button>
+                      <span className="rdropdown-menu-title">{title}</span>
                   </div>
                   {this.renderList()}
                   {this.renderApply()}
