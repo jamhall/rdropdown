@@ -200,8 +200,8 @@
     font-weight: bold;
     color: #fff;
     background-color: #4078c0;
+    text-decoration: none;
 }
-
 .rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option-icon {
     margin-right: 10px;
     height: 16px;
@@ -211,9 +211,11 @@
 .rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option:hover {
     color: inherit;
     background-color: #f4f4f4;
+    text-decoration: none;
 }
+
 .rdropdown-menu .rdropdown-menu-list .rdropdown-menu-list-option.rdropdown-menu-list-option-focused {
-    text-decoration:none;
+    text-decoration: none;
     color: inherit;
     background-color: #f4f4f4;
 }

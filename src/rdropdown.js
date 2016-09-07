@@ -20,7 +20,8 @@ class RDropdown extends Component {
         errorText: PropTypes.string,
         applyOptions: PropTypes.bool,
         applyOptionsText: PropTypes.string,
-        height: PropTypes.number
+        height: PropTypes.number,
+        width: PropTypes.number
     }
 
     static defaultProps = {
@@ -35,6 +36,7 @@ class RDropdown extends Component {
         multiple: false,
         title: 'Filter',
         height: 300,
+        width: 300,
         searchTimeout: 200
     }
 
@@ -446,9 +448,13 @@ class RDropdown extends Component {
 
     render() {
         const { title, onClose} = this.props;
+        const {width} = this.props;
+        const styles = {
+          maxWidth: width
+        };
         return (
             <RenderInBody>
-              <div tabIndex={0} className="rdropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
+              <div tabIndex={0} style={styles} className="rdropdown-menu" ref="dropdownMenu" onKeyDown={this.handleKeyDown}>
                   <div className="rdropdown-menu-header">
                       <button className="rdropdown-menu-close" onClick={onClose}>×</button>
                       <span className="rdropdown-menu-title">{title}</span>

@@ -90,7 +90,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function RDropdown(props) {
 	        _classCallCheck(this, RDropdown);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RDropdown).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (RDropdown.__proto__ || Object.getPrototypeOf(RDropdown)).call(this, props));
 
 	        _this.displayName = 'RDropdown';
 
@@ -578,13 +578,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _props2 = this.props;
 	            var title = _props2.title;
 	            var onClose = _props2.onClose;
+	            var width = this.props.width;
 
+	            var styles = {
+	                maxWidth: width
+	            };
 	            return _react2.default.createElement(
 	                _renderinbody2.default,
 	                null,
 	                _react2.default.createElement(
 	                    'div',
-	                    { tabIndex: 0, className: 'rdropdown-menu', ref: 'dropdownMenu', onKeyDown: this.handleKeyDown },
+	                    { tabIndex: 0, style: styles, className: 'rdropdown-menu', ref: 'dropdownMenu', onKeyDown: this.handleKeyDown },
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'rdropdown-menu-header' },
@@ -625,7 +629,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    errorText: _react.PropTypes.string,
 	    applyOptions: _react.PropTypes.bool,
 	    applyOptionsText: _react.PropTypes.string,
-	    height: _react.PropTypes.number
+	    height: _react.PropTypes.number,
+	    width: _react.PropTypes.number
 	};
 	RDropdown.defaultProps = {
 	    searchable: false,
@@ -639,6 +644,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    multiple: false,
 	    title: 'Filter',
 	    height: 300,
+	    width: 300,
 	    searchTimeout: 200
 	};
 	exports.default = RDropdown;
@@ -691,7 +697,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function RenderInBody() {
 	    _classCallCheck(this, RenderInBody);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(RenderInBody).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (RenderInBody.__proto__ || Object.getPrototypeOf(RenderInBody)).apply(this, arguments));
 	  }
 
 	  _createClass(RenderInBody, [{
@@ -746,11 +752,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	exports.findIndexForOption = findIndexForOption;
 	exports.optionExists = optionExists;
 	function findIndexForOption(options, option) {
@@ -765,6 +774,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function optionExists(options, option) {
+	  var deepEqual = function deepEqual(x, y) {
+	    return x && y && (typeof x === 'undefined' ? 'undefined' : _typeof(x)) === 'object' && (typeof y === 'undefined' ? 'undefined' : _typeof(y)) === 'object' ? Object.keys(x).length === Object.keys(y).length && Object.keys(x).reduce(function (isEqual, key) {
+	      return isEqual && deepEqual(x[key], y[key]);
+	    }, true) : x === y;
+	  };
 	  var _iteratorNormalCompletion = true;
 	  var _didIteratorError = false;
 	  var _iteratorError = undefined;
@@ -773,7 +787,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	      var o = _step.value;
 
-	      if (o === option) {
+	      if (deepEqual(o, option)) {
 	        return true;
 	      }
 	    }
